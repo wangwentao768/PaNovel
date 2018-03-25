@@ -74,6 +74,7 @@ dependencies {
     implementation project(':api')
     implementation project(':reader')
     implementation 'com.tencent.bugly:crashreport:2.6.6'
+    implementation project(':feedback')
 }
 
 
