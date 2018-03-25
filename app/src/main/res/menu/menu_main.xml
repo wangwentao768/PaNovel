@@ -3,6 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="cc.aoeiuv020.panovel.main.MainActivity">
     <item
+        android:id="@+id/feedback"
+        android:icon="@drawable/ic_message"
+        android:title="@string/feedback"
+        app:iconTint="@android:color/white"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/search"
         android:icon="@drawable/ic_search"
         android:title="@string/search"

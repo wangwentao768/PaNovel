@@ -17,6 +17,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import cc.aoeiuv020.feedback.FeedbackActivity
 import cc.aoeiuv020.panovel.App
 import cc.aoeiuv020.panovel.BuildConfig
 import cc.aoeiuv020.panovel.R
@@ -230,6 +231,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.feedback -> FeedbackActivity.start(this)
             R.id.settings -> SettingsActivity.start(this)
             R.id.search -> RefineSearchActivity.start(this)
             R.id.scan -> scan()

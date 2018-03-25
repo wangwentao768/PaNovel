@@ -161,6 +161,7 @@
     <string name="report_crash">上报崩溃</string>
     <string name="picker">选择器</string>
     <string name="colorARGB">颜色ARGB</string>
+    <string name="feedback">反馈</string>
 
 
 </resources>

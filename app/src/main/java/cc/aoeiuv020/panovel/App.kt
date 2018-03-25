@@ -74,7 +74,7 @@ class App : Application(), AnkoLogger {
 
         // 第三个参数为SDK调试模式开关，
         // 模拟器打开，
-        CrashReport.initCrashReport(ctx, "be0d684a75", adRequest.isTestDevice(ctx))
+        CrashReport.initCrashReport(ctx, "be0d684a75", false)
         // 貌似设置了开发设备就不上报了，
         CrashReport.setIsDevelopmentDevice(ctx, !Settings.reportCrash)
 
