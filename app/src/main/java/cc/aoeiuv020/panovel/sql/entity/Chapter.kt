@@ -46,6 +46,7 @@ class Chapter {
     var index: Int? = null
     /**
      * 卷索引，
+     * 支持为空，没有卷，全部默认一卷，
      */
     var volumeIndex: Int? = null
     /**

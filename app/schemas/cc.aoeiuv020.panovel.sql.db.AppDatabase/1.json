@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "9306694f540dc6e038613fb0c26de860",
+    "identityHash": "01326606a0af3694baaaffd7f4243086",
     "entities": [
       {
         "tableName": "NovelMini",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `detailRequesterType` TEXT NOT NULL, `detailRequesterExtra` TEXT NOT NULL, `bookshelf` INTEGER, `chapterReadAt` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `detailRequesterType` TEXT NOT NULL, `detailRequesterExtra` TEXT NOT NULL, `bookshelf` INTEGER NOT NULL, `chapterReadAt` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -30,13 +30,13 @@
             "fieldPath": "bookshelf",
             "columnName": "bookshelf",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "chapterReadAt",
             "columnName": "chapterReadAt",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -60,7 +60,7 @@
       },
       {
         "tableName": "BookList",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -72,7 +72,7 @@
             "fieldPath": "name",
             "columnName": "name",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -152,7 +152,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"9306694f540dc6e038613fb0c26de860\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"01326606a0af3694baaaffd7f4243086\")"
     ]
   }
 }

@@ -96,4 +96,17 @@ class BookListTest : AnkoLogger {
                 .sorted()
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun a5_rename_first() {
+        val bookList = AppDatabase.instance.bookListDao()
+                .getBookListById(1L)!!
+        assertEquals("测试书架", bookList.name)
+        val newName = "新名字书架"
+        AppDatabase.instance.bookListDao()
+                .renameBookList(bookList.id!!, newName)
+        val result = AppDatabase.instance.bookListDao()
+                .getBookListById(bookList.id!!)!!
+        assertEquals(newName, result.name)
+    }
 }

@@ -1,7 +1,6 @@
 package cc.aoeiuv020.panovel.sql
 
 import cc.aoeiuv020.panovel.sql.entity.NovelDetail
-import cc.aoeiuv020.panovel.sql.entity.NovelMini
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.junit.rules.TestWatcher
@@ -48,11 +47,4 @@ object TestUtil : AnkoLogger {
         remoteId = random.nextInt()
     }
 
-    fun createNovelMini(): NovelMini = NovelMini().apply {
-        number++
-        detailRequesterType = "detail-requester-type-default"
-        detailRequesterExtra = "detail-requester-extra-${number}"
-        bookshelf = false
-        chapterReadAt = random.nextInt()
-    }
 }

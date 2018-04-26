@@ -2,6 +2,7 @@ package cc.aoeiuv020.panovel.sql.entity
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
+import android.support.annotation.NonNull
 
 /**
  * 永久数据库中的书单，
@@ -18,5 +19,6 @@ class BookList {
     /**
      * 书单名，可以重复，
      */
+    @NonNull
     var name: String? = null
 }

@@ -20,6 +20,15 @@ import android.support.annotation.NonNull
 )
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 class NovelMini {
+    companion object {
+        fun new(type: String, extra: String) = new(type, extra, false, 0)
+        fun new(type: String, extra: String, bookshelf: Boolean, chapterReadAt: Int): NovelMini = NovelMini().apply {
+            this.detailRequesterType = type
+            this.detailRequesterExtra = extra
+            this.bookshelf = bookshelf
+            this.chapterReadAt = chapterReadAt
+        }
+    }
     /**
      * 普通的id, 在书单里外键用到，
      */
@@ -40,10 +49,12 @@ class NovelMini {
     /**
      * 是否在书架上，
      */
+    @NonNull
     var bookshelf: Boolean? = null
     /**
      * 阅读进度，
      * 阅读至的章节索引，
      */
+    @NonNull
     var chapterReadAt: Int? = null
 }

@@ -1,9 +1,6 @@
 package cc.aoeiuv020.panovel.sql.dao
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.Query
-import android.arch.persistence.room.Transaction
+import android.arch.persistence.room.*
 import cc.aoeiuv020.panovel.local.BookListData
 import cc.aoeiuv020.panovel.sql.entity.BookList
 import cc.aoeiuv020.panovel.sql.entity.BookListItem
@@ -18,6 +15,9 @@ abstract class BookListDao {
     @Insert
     abstract fun insertBookList(bookList: BookList): Long
 
+    @Update
+    abstract fun updateBookList(bookList: BookList)
+
     @Insert
     abstract fun insertNovelMini(novelMini: NovelMini): Long
 
@@ -26,6 +26,9 @@ abstract class BookListDao {
 
     @Query("select * from BookList")
     abstract fun getAllBookLists(): List<BookList>
+
+    @Query("select * from BookList where id = :id")
+    abstract fun getBookListById(id: Long): BookList?
 
     /**
      * join效率不敢保证，也没测试，
@@ -50,10 +53,7 @@ abstract class BookListDao {
     private fun queryOrNew(type: String, extra: String): NovelMini {
         return queryByDetailRequester(type, extra)
                 ?: run {
-                    val newNovelMini = NovelMini().apply {
-                        detailRequesterType = type
-                        detailRequesterExtra = extra
-                    }
+                    val newNovelMini = NovelMini.new(type, extra)
                     val newNovelMiniId = insertNovelMini(newNovelMini)
                     newNovelMini.id = newNovelMiniId
                     newNovelMini
@@ -76,5 +76,15 @@ abstract class BookListDao {
             insertBookListItem(bookListItem)
         }
         return bookList
+    }
+
+    @Transaction
+    open fun renameBookList(id: Long, name: String) {
+        val bookList = getBookListById(id)
+                ?: throw NoSuchElementException("no such BookList where id = $id")
+        if (bookList.name != name) {
+            bookList.name = name
+            updateBookList(bookList)
+        }
     }
 }
