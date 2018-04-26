@@ -1,0 +1,275 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "23ecdb17785f55b31af1ef820d94cabb",
+    "entities": [
+      {
+        "tableName": "Novel",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `author` TEXT, `site` TEXT, `imageUrl` TEXT, `introduction` TEXT, `detailRequesterType` TEXT NOT NULL, `detailRequesterExtra` TEXT NOT NULL, `chaptersRequesterType` TEXT, `chaptersRequesterExtra` TEXT, `chapterCount` INTEGER, `chapterReadAt` INTEGER, `chapterNameLast` TEXT, `chapterNameReadAt` TEXT, `updateTime` INTEGER, `checkUpdateTime` INTEGER, `receiveUpdateTime` INTEGER, `remoteId` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "author",
+            "columnName": "author",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "site",
+            "columnName": "site",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "imageUrl",
+            "columnName": "imageUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "introduction",
+            "columnName": "introduction",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "detailRequesterType",
+            "columnName": "detailRequesterType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "detailRequesterExtra",
+            "columnName": "detailRequesterExtra",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "chaptersRequesterType",
+            "columnName": "chaptersRequesterType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "chaptersRequesterExtra",
+            "columnName": "chaptersRequesterExtra",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "chapterCount",
+            "columnName": "chapterCount",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "chapterReadAt",
+            "columnName": "chapterReadAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "chapterNameLast",
+            "columnName": "chapterNameLast",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "chapterNameReadAt",
+            "columnName": "chapterNameReadAt",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "updateTime",
+            "columnName": "updateTime",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "checkUpdateTime",
+            "columnName": "checkUpdateTime",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "receiveUpdateTime",
+            "columnName": "receiveUpdateTime",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Novel_detailRequesterType_detailRequesterExtra",
+            "unique": true,
+            "columnNames": [
+              "detailRequesterType",
+              "detailRequesterExtra"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Novel_detailRequesterType_detailRequesterExtra` ON `${TABLE_NAME}` (`detailRequesterType`, `detailRequesterExtra`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Chapter",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `novelId` INTEGER NOT NULL, `index` INTEGER NOT NULL, `volumeIndex` INTEGER, `name` TEXT NOT NULL, `content` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`novelId`) REFERENCES `Novel`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`novelId`, `volumeIndex`) REFERENCES `Volume`(`novelId`, `index`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "novelId",
+            "columnName": "novelId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "index",
+            "columnName": "index",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "volumeIndex",
+            "columnName": "volumeIndex",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "content",
+            "columnName": "content",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_Chapter_novelId_index",
+            "unique": true,
+            "columnNames": [
+              "novelId",
+              "index"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Chapter_novelId_index` ON `${TABLE_NAME}` (`novelId`, `index`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Novel",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "novelId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "Volume",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "novelId",
+              "volumeIndex"
+            ],
+            "referencedColumns": [
+              "novelId",
+              "index"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Volume",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`novelId` INTEGER NOT NULL, `index` INTEGER NOT NULL, `name` TEXT, PRIMARY KEY(`novelId`, `index`), FOREIGN KEY(`novelId`) REFERENCES `Novel`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "novelId",
+            "columnName": "novelId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "index",
+            "columnName": "index",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "novelId",
+            "index"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "Novel",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "novelId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"23ecdb17785f55b31af1ef820d94cabb\")"
+    ]
+  }
+}

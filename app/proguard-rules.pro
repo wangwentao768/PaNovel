@@ -1,3 +1,7 @@
+# 本地持久化用到的实体类不能混淆，
+-keepclassmembers class cc.aoeiuv020.panovel.sql.entity.** { *; }
+
+
 # 和服务器端交互用的pojo需要gson序列化，不混淆，
 -keepclassmembers class cc.aoeiuv020.panovel.server.dal.model.** { <fields>; }
 -keepclassmembers class cc.aoeiuv020.panovel.server.ServerAddress { <fields>; }
