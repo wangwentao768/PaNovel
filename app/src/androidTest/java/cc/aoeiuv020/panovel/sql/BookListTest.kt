@@ -49,12 +49,13 @@ class BookListTest : AnkoLogger {
         assertEquals(dbFile.path, AppDatabase.instance.openHelper.databaseName)
     }
 
+    private fun readBookListData(name: String): BookListData {
+        val json = InstrumentationRegistry.getContext().assetsRead(name)
+        return Gson().fromJson(json, BookListData::class.java)
+    }
 
-    @Test
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun a1_import_book_list() {
-        val json = InstrumentationRegistry.getContext().assetsRead("bookList.json")
-        val bookListData: BookListData = Gson().fromJson(json, BookListData::class.java)
+    private fun importBookListFromAssetsJson(name: String) {
+        val bookListData = readBookListData(name)
         val bookList = AppDatabase.instance.bookListDao()
                 .importBookList(bookListData)
         bookList.apply {
@@ -64,7 +65,35 @@ class BookListTest : AnkoLogger {
     }
 
     @Test
-    fun a2_import_again() {
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun a1_import_book_list() {
+        importBookListFromAssetsJson("bookList-test.json")
+    }
+
+    @Test
+    fun a2_import_another_book_list() {
+        importBookListFromAssetsJson("bookList-backup.json")
+    }
+
+    @Test
+    fun a3_import_again() {
         a1_import_book_list()
+    }
+
+    @Test
+    fun a4_query_first() {
+        val bookLists = AppDatabase.instance.bookListDao()
+                .getAllBookLists()
+        val bookList = bookLists.first { it.id == 1L }
+        assertEquals("测试书架", bookList.name)
+
+        val novelMiniList = AppDatabase.instance.bookListDao()
+                .getNovelMiniInBookList(bookList.id!!)
+        val bookListData = readBookListData("bookList-test.json")
+        val expected = bookListData.list.map { it.requester.extra }
+                .sorted()
+        val actual = novelMiniList.map { it.detailRequesterExtra!! }
+                .sorted()
+        assertEquals(expected, actual)
     }
 }

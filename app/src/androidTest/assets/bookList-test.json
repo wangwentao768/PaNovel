@@ -1,0 +1,68 @@
+{
+  "list": [
+    {
+      "author": "圣骑士的传说",
+      "name": "修真聊天群",
+      "requester": {
+        "type": "cc.aoeiuv020.panovel.api.DetailRequester",
+        "extra": "https://book.qidian.com/info/3602691"
+      },
+      "site": "起点中文"
+    },
+    {
+      "author": "我吃西红柿",
+      "name": "飞剑问道",
+      "requester": {
+        "type": "cc.aoeiuv020.panovel.api.DetailRequester",
+        "extra": "http://www.piaotian.com/bookinfo/8/8952.html"
+      },
+      "site": "飘天文学"
+    },
+    {
+      "author": "跃千愁",
+      "name": "道君",
+      "requester": {
+        "type": "cc.aoeiuv020.panovel.api.DetailRequester",
+        "extra": "https://www.biqubao.com/book/20202/"
+      },
+      "site": "笔趣阁"
+    },
+    {
+      "author": "江山如此多娇引无数英雄竞折腰",
+      "name": "神话现实",
+      "requester": {
+        "type": "cc.aoeiuv020.panovel.api.DetailRequester",
+        "extra": "http://www.liudatxt.com/so/28891/"
+      },
+      "site": "溜达小说"
+    },
+    {
+      "author": "爱七ひろ",
+      "name": "异世界狂想曲",
+      "requester": {
+        "type": "cc.aoeiuv020.panovel.api.DetailRequester",
+        "extra": "http://q.dmzj.com/1728/index.shtml"
+      },
+      "site": "动漫之家"
+    },
+    {
+      "author": "花的黎明",
+      "name": "某科学的外挂修仙",
+      "requester": {
+        "type": "cc.aoeiuv020.panovel.api.DetailRequester",
+        "extra": "http://book.sfacg.com/Novel/121725/"
+      },
+      "site": "SF轻小说"
+    },
+    {
+      "author": "断桥残雪",
+      "name": "修真老师生活录",
+      "requester": {
+        "type": "cc.aoeiuv020.panovel.api.DetailRequester",
+        "extra": "https://www.snwx8.com/book/0/20/"
+      },
+      "site": "少年文学"
+    }
+  ],
+  "name": "测试书架"
+}

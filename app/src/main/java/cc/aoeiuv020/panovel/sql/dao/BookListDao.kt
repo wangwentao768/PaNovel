@@ -24,6 +24,21 @@ abstract class BookListDao {
     @Insert
     abstract fun insertBookListItem(bookListItem: BookListItem)
 
+    @Query("select * from BookList")
+    abstract fun getAllBookLists(): List<BookList>
+
+    /**
+     * join效率不敢保证，也没测试，
+     */
+    @Query("select Mini.*" +
+            " from BookList" +
+            " join BookListItem" +
+            " on BookList.id = BookListItem.bookListId" +
+            " join NovelMini Mini" +
+            " on BookListItem.novelMiniId = Mini.id" +
+            " where BookList.id = :id")
+    abstract fun getNovelMiniInBookList(id: Long): List<NovelMini>
+
     @Query("select * from NovelMini" +
             " where detailRequesterType = :type" +
             " and detailRequesterExtra = :extra")
