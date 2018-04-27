@@ -28,7 +28,7 @@ class InsertSpeedTest : AnkoLogger {
 
     @Rule
     @JvmField
-    val watcher = TestUtil.getWatcher(this)
+    val watcher = TestUtil.timeWatcher
 
 
     @Before
@@ -49,13 +49,14 @@ class InsertSpeedTest : AnkoLogger {
     @Test
     fun a1_insert() {
         // 29ms,
-        val nCount = CacheDatabase.instance.novelDao()
+        val nCount = CacheDatabase.instance.novelDetailDao()
                 .getCount()
         info { "now Count: $nCount" }
-        val dao = CacheDatabase.instance.novelDao()
-        val novel = TestUtil.createNovel()
+        val dao = CacheDatabase.instance.novelDetailDao()
+        val novel = TestUtil.createNovelDetail()
         dao.insertNovels(novel)
         val result = dao.queryByDetailRequester(novel)
+                ?: throw IllegalStateException("novel not found,")
         assertEquals(novel.name, result.name)
     }
 
@@ -65,8 +66,8 @@ class InsertSpeedTest : AnkoLogger {
         // 33089ms,
         val count = 10000
         repeat(count) {
-            CacheDatabase.instance.novelDao()
-                    .insertNovels(TestUtil.createNovel())
+            CacheDatabase.instance.novelDetailDao()
+                    .insertNovels(TestUtil.createNovelDetail())
         }
     }
 */
@@ -74,14 +75,14 @@ class InsertSpeedTest : AnkoLogger {
     @Test
     fun a3_insert_1w_transaction() {
         // 781ms,
-        val nCount = CacheDatabase.instance.novelDao()
+        val nCount = CacheDatabase.instance.novelDetailDao()
                 .getCount()
         info { "now Count: $nCount" }
         val count = 10000
         CacheDatabase.instance.runInTransaction {
             repeat(count) {
-                CacheDatabase.instance.novelDao()
-                        .insertNovels(TestUtil.createNovel())
+                CacheDatabase.instance.novelDetailDao()
+                        .insertNovels(TestUtil.createNovelDetail())
             }
         }
 
@@ -90,21 +91,21 @@ class InsertSpeedTest : AnkoLogger {
     @Test
     fun a4_insert_1w_one_time() {
         // 297ms,
-        val nCount = CacheDatabase.instance.novelDao()
+        val nCount = CacheDatabase.instance.novelDetailDao()
                 .getCount()
         info { "now Count: $nCount" }
         val count = 10000
         val novels = Array(count) {
-            TestUtil.createNovel()
+            TestUtil.createNovelDetail()
         }
-        CacheDatabase.instance.novelDao()
+        CacheDatabase.instance.novelDetailDao()
                 .insertNovels(*novels)
     }
 
     @Test
     fun a5_insert_1w_step_501() {
         // 352ms,
-        val nCount = CacheDatabase.instance.novelDao()
+        val nCount = CacheDatabase.instance.novelDetailDao()
                 .getCount()
         info { "now Count: $nCount" }
         val count = 10000
@@ -112,9 +113,9 @@ class InsertSpeedTest : AnkoLogger {
         CacheDatabase.instance.runInTransaction {
             for (i in 0..count step step) {
                 val novels = Array(min(step, count - i)) {
-                    TestUtil.createNovel()
+                    TestUtil.createNovelDetail()
                 }
-                CacheDatabase.instance.novelDao()
+                CacheDatabase.instance.novelDetailDao()
                         .insertNovels(*novels)
             }
         }
@@ -124,7 +125,7 @@ class InsertSpeedTest : AnkoLogger {
     @Test
     fun a6_delete_all() {
         // 249ms,
-        val result = CacheDatabase.instance.novelDao()
+        val result = CacheDatabase.instance.novelDetailDao()
                 .deleteAll()
         assertEquals(30001, result)
     }

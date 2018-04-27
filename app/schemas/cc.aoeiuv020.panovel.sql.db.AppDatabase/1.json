@@ -1,0 +1,158 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "9306694f540dc6e038613fb0c26de860",
+    "entities": [
+      {
+        "tableName": "NovelMini",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `detailRequesterType` TEXT NOT NULL, `detailRequesterExtra` TEXT NOT NULL, `bookshelf` INTEGER, `chapterReadAt` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "detailRequesterType",
+            "columnName": "detailRequesterType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "detailRequesterExtra",
+            "columnName": "detailRequesterExtra",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bookshelf",
+            "columnName": "bookshelf",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "chapterReadAt",
+            "columnName": "chapterReadAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_NovelMini_detailRequesterType_detailRequesterExtra",
+            "unique": true,
+            "columnNames": [
+              "detailRequesterType",
+              "detailRequesterExtra"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_NovelMini_detailRequesterType_detailRequesterExtra` ON `${TABLE_NAME}` (`detailRequesterType`, `detailRequesterExtra`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "BookList",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "BookListItem",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `bookListId` INTEGER NOT NULL, `novelMiniId` INTEGER NOT NULL, FOREIGN KEY(`bookListId`) REFERENCES `BookList`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`novelMiniId`) REFERENCES `NovelMini`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "bookListId",
+            "columnName": "bookListId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "novelMiniId",
+            "columnName": "novelMiniId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_BookListItem_bookListId_novelMiniId",
+            "unique": true,
+            "columnNames": [
+              "bookListId",
+              "novelMiniId"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_BookListItem_bookListId_novelMiniId` ON `${TABLE_NAME}` (`bookListId`, `novelMiniId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "BookList",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "bookListId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "NovelMini",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "novelMiniId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"9306694f540dc6e038613fb0c26de860\")"
+    ]
+  }
+}

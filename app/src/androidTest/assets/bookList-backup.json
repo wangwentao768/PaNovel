@@ -1,0 +1,77 @@
+{
+  "list": [
+    {
+      "author": "圣骑士的传说",
+      "name": "修真聊天群",
+      "requester": {
+        "type": "cc.aoeiuv020.panovel.api.DetailRequester",
+        "extra": "https://book.qidian.com/info/3602691"
+      },
+      "site": "起点中文"
+    },
+    {
+      "author": "追梦人Love平",
+      "name": "名侦探世界里的巫师",
+      "requester": {
+        "type": "cc.aoeiuv020.panovel.api.DetailRequester",
+        "extra": "https://book.qidian.com/info/3681932"
+      },
+      "site": "起点中文"
+    },
+    {
+      "author": "辰机唐红豆",
+      "name": "吹神",
+      "requester": {
+        "type": "cc.aoeiuv020.panovel.api.DetailRequester",
+        "extra": "https://book.qidian.com/info/1011029438"
+      },
+      "site": "起点中文"
+    },
+    {
+      "author": "轻语江湖",
+      "name": "奶爸的异界餐厅",
+      "requester": {
+        "type": "cc.aoeiuv020.panovel.api.DetailRequester",
+        "extra": "https://book.qidian.com/info/1010815544"
+      },
+      "site": "起点中文"
+    },
+    {
+      "author": "折纸星人",
+      "name": "柯南之开门我是警察",
+      "requester": {
+        "type": "cc.aoeiuv020.panovel.api.DetailRequester",
+        "extra": "https://book.qidian.com/info/1003581170"
+      },
+      "site": "起点中文"
+    },
+    {
+      "author": "夕山白石",
+      "name": "特拉福买家俱乐部",
+      "requester": {
+        "type": "cc.aoeiuv020.panovel.api.DetailRequester",
+        "extra": "https://book.qidian.com/info/1003530168"
+      },
+      "site": "起点中文"
+    },
+    {
+      "author": "不要尬舞",
+      "name": "诸天万界反派聊天群",
+      "requester": {
+        "type": "cc.aoeiuv020.panovel.api.DetailRequester",
+        "extra": "https://book.qidian.com/info/1009999768"
+      },
+      "site": "起点中文"
+    },
+    {
+      "author": "跃千愁",
+      "name": "道君",
+      "requester": {
+        "type": "cc.aoeiuv020.panovel.api.DetailRequester",
+        "extra": "https://book.qidian.com/info/1005236478"
+      },
+      "site": "起点中文"
+    }
+  ],
+  "name": "书架备份"
+}

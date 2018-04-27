@@ -7,20 +7,24 @@ import android.support.annotation.NonNull
 import java.util.*
 
 /**
+ * 缓存数据库中的小说详情表，
  * Created by AoEiuV020 on 2018.04.25-20:35:27.
  */
-@Suppress("MemberVisibilityCanBePrivate", "unused")
 @Entity(
         indices = [
-            (Index(value = ["detailRequesterType", "detailRequesterExtra"], unique = true))
+            (Index(
+                    value = ["detailRequesterType", "detailRequesterExtra"],
+                    unique = true
+            ))
         ]
 )
-class Novel {
+@Suppress("MemberVisibilityCanBePrivate", "unused")
+class NovelDetail {
     /**
-     * 普通的自增id, 没有别的用，
+     * 普通的id,
      */
     @PrimaryKey(autoGenerate = true)
-    var id: Int? = null
+    var id: Long? = null
     /**
      * 小说名，
      */

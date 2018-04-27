@@ -2,10 +2,10 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "23ecdb17785f55b31af1ef820d94cabb",
+    "identityHash": "57c1c9c0e387a20fe4184f94dd579698",
     "entities": [
       {
-        "tableName": "Novel",
+        "tableName": "NovelDetail",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `author` TEXT, `site` TEXT, `imageUrl` TEXT, `introduction` TEXT, `detailRequesterType` TEXT NOT NULL, `detailRequesterExtra` TEXT NOT NULL, `chaptersRequesterType` TEXT, `chaptersRequesterExtra` TEXT, `chapterCount` INTEGER, `chapterReadAt` INTEGER, `chapterNameLast` TEXT, `chapterNameReadAt` TEXT, `updateTime` INTEGER, `checkUpdateTime` INTEGER, `receiveUpdateTime` INTEGER, `remoteId` INTEGER)",
         "fields": [
           {
@@ -125,20 +125,20 @@
         },
         "indices": [
           {
-            "name": "index_Novel_detailRequesterType_detailRequesterExtra",
+            "name": "index_NovelDetail_detailRequesterType_detailRequesterExtra",
             "unique": true,
             "columnNames": [
               "detailRequesterType",
               "detailRequesterExtra"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_Novel_detailRequesterType_detailRequesterExtra` ON `${TABLE_NAME}` (`detailRequesterType`, `detailRequesterExtra`)"
+            "createSql": "CREATE UNIQUE INDEX `index_NovelDetail_detailRequesterType_detailRequesterExtra` ON `${TABLE_NAME}` (`detailRequesterType`, `detailRequesterExtra`)"
           }
         ],
         "foreignKeys": []
       },
       {
         "tableName": "Chapter",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `novelId` INTEGER NOT NULL, `index` INTEGER NOT NULL, `volumeIndex` INTEGER, `name` TEXT NOT NULL, `content` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`novelId`) REFERENCES `Novel`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`novelId`, `volumeIndex`) REFERENCES `Volume`(`novelId`, `index`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `novelDetailId` INTEGER NOT NULL, `index` INTEGER NOT NULL, `volumeIndex` INTEGER, `name` TEXT NOT NULL, `content` TEXT NOT NULL, FOREIGN KEY(`novelDetailId`) REFERENCES `NovelDetail`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`novelDetailId`, `volumeIndex`) REFERENCES `Volume`(`novelDetailId`, `index`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -147,8 +147,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "novelId",
-            "columnName": "novelId",
+            "fieldPath": "novelDetailId",
+            "columnName": "novelDetailId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -181,26 +181,26 @@
           "columnNames": [
             "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [
           {
-            "name": "index_Chapter_novelId_index",
+            "name": "index_Chapter_novelDetailId_index",
             "unique": true,
             "columnNames": [
-              "novelId",
+              "novelDetailId",
               "index"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_Chapter_novelId_index` ON `${TABLE_NAME}` (`novelId`, `index`)"
+            "createSql": "CREATE UNIQUE INDEX `index_Chapter_novelDetailId_index` ON `${TABLE_NAME}` (`novelDetailId`, `index`)"
           }
         ],
         "foreignKeys": [
           {
-            "table": "Novel",
+            "table": "NovelDetail",
             "onDelete": "NO ACTION",
             "onUpdate": "NO ACTION",
             "columns": [
-              "novelId"
+              "novelDetailId"
             ],
             "referencedColumns": [
               "id"
@@ -211,11 +211,11 @@
             "onDelete": "NO ACTION",
             "onUpdate": "NO ACTION",
             "columns": [
-              "novelId",
+              "novelDetailId",
               "volumeIndex"
             ],
             "referencedColumns": [
-              "novelId",
+              "novelDetailId",
               "index"
             ]
           }
@@ -223,11 +223,17 @@
       },
       {
         "tableName": "Volume",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`novelId` INTEGER NOT NULL, `index` INTEGER NOT NULL, `name` TEXT, PRIMARY KEY(`novelId`, `index`), FOREIGN KEY(`novelId`) REFERENCES `Novel`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `novelDetailId` INTEGER NOT NULL, `index` INTEGER NOT NULL, `name` TEXT, FOREIGN KEY(`novelDetailId`) REFERENCES `NovelDetail`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
-            "fieldPath": "novelId",
-            "columnName": "novelId",
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "novelDetailId",
+            "columnName": "novelDetailId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -246,19 +252,28 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "novelId",
-            "index"
+            "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_Volume_novelDetailId_index",
+            "unique": true,
+            "columnNames": [
+              "novelDetailId",
+              "index"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Volume_novelDetailId_index` ON `${TABLE_NAME}` (`novelDetailId`, `index`)"
+          }
+        ],
         "foreignKeys": [
           {
-            "table": "Novel",
+            "table": "NovelDetail",
             "onDelete": "NO ACTION",
             "onUpdate": "NO ACTION",
             "columns": [
-              "novelId"
+              "novelDetailId"
             ],
             "referencedColumns": [
               "id"
@@ -269,7 +284,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"23ecdb17785f55b31af1ef820d94cabb\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"57c1c9c0e387a20fe4184f94dd579698\")"
     ]
   }
 }

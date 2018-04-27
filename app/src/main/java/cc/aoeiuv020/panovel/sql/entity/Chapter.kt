@@ -7,35 +7,37 @@ import android.arch.persistence.room.PrimaryKey
 import android.support.annotation.NonNull
 
 /**
+ * 缓存数据库中的章节表，
+ *
  * Created by AoEiuV020 on 2018.04.25-21:30:42.
  */
-@Suppress("MemberVisibilityCanBePrivate", "unused")
 @Entity(
-        indices = [(Index(value = ["novelId", "index"], unique = true))],
+        indices = [(Index(value = ["novelDetailId", "index"], unique = true))],
         foreignKeys = [
             (ForeignKey(
-                    entity = Novel::class,
+                    entity = NovelDetail::class,
                     parentColumns = ["id"],
-                    childColumns = ["novelId"]
+                    childColumns = ["novelDetailId"]
             )),
             (ForeignKey(
                     entity = Volume::class,
-                    parentColumns = ["novelId", "index"],
-                    childColumns = ["novelId", "volumeIndex"]
+                    parentColumns = ["novelDetailId", "index"],
+                    childColumns = ["novelDetailId", "volumeIndex"]
             ))
         ]
 )
+@Suppress("MemberVisibilityCanBePrivate", "unused")
 class Chapter {
     /**
      * 普通的id,
      */
-    @PrimaryKey
-    var id: Int? = null
+    @PrimaryKey(autoGenerate = true)
+    var id: Long? = null
     /**
-     * 外键[Novel]表的id,
+     * 外键[NovelDetail]表的id,
      */
     @NonNull
-    var novelId: Int? = null
+    var novelDetailId: Long? = null
     /**
      * 章节索引，
      * 也就是第几章，

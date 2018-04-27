@@ -9,6 +9,8 @@ import cc.aoeiuv020.base.jar.ssl.TLSSocketFactory
 import cc.aoeiuv020.panovel.api.paNovel
 import cc.aoeiuv020.panovel.local.PrimarySettings
 import cc.aoeiuv020.panovel.local.Settings
+import cc.aoeiuv020.panovel.sql.db.AppDatabase
+import cc.aoeiuv020.panovel.sql.db.CacheDatabase
 import cc.aoeiuv020.panovel.util.ignoreException
 import cn.jpush.android.api.JPushInterface
 import com.google.android.gms.ads.AdRequest
@@ -43,6 +45,9 @@ class App : MultiDexApplication(), AnkoLogger {
     override fun onCreate() {
         super.onCreate()
         ctx = applicationContext
+
+        AppDatabase.init(ctx)
+        CacheDatabase.init(ctx)
 
         checkBaseFile()
 

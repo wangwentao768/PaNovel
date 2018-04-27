@@ -33,8 +33,10 @@ android {
         ]
     }
     sourceSets {
-        androidTest.assets.srcDirs +=
-                files("$projectDir/schemas".toString())
+        androidTest {
+            assets.srcDirs += "$projectDir/src/androidTest/assets/"
+            assets.srcDirs += "$projectDir/schemas"
+        }
     }
     buildTypes {
         release {
