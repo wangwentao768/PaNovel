@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "01326606a0af3694baaaffd7f4243086",
+    "identityHash": "43450174526fe20d6988d7b78236f53d",
     "entities": [
       {
         "tableName": "NovelMini",
@@ -86,7 +86,7 @@
       },
       {
         "tableName": "BookListItem",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `bookListId` INTEGER NOT NULL, `novelMiniId` INTEGER NOT NULL, FOREIGN KEY(`bookListId`) REFERENCES `BookList`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`novelMiniId`) REFERENCES `NovelMini`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `bookListId` INTEGER NOT NULL, `novelMiniId` INTEGER NOT NULL, FOREIGN KEY(`bookListId`) REFERENCES `BookList`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`novelMiniId`) REFERENCES `NovelMini`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -127,7 +127,7 @@
         "foreignKeys": [
           {
             "table": "BookList",
-            "onDelete": "NO ACTION",
+            "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
               "bookListId"
@@ -152,7 +152,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"01326606a0af3694baaaffd7f4243086\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"43450174526fe20d6988d7b78236f53d\")"
     ]
   }
 }

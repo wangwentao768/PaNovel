@@ -15,7 +15,8 @@ import android.support.annotation.NonNull
             (ForeignKey(
                     entity = BookList::class,
                     parentColumns = ["id"],
-                    childColumns = ["bookListId"]
+                    childColumns = ["bookListId"],
+                    onDelete = ForeignKey.CASCADE
             )),
             (ForeignKey(
                     entity = NovelMini::class,

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "57c1c9c0e387a20fe4184f94dd579698",
+    "identityHash": "671c77e1392e63b27511ba67e5b9110f",
     "entities": [
       {
         "tableName": "NovelDetail",
@@ -138,7 +138,7 @@
       },
       {
         "tableName": "Chapter",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `novelDetailId` INTEGER NOT NULL, `index` INTEGER NOT NULL, `volumeIndex` INTEGER, `name` TEXT NOT NULL, `content` TEXT NOT NULL, FOREIGN KEY(`novelDetailId`) REFERENCES `NovelDetail`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`novelDetailId`, `volumeIndex`) REFERENCES `Volume`(`novelDetailId`, `index`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `novelDetailId` INTEGER NOT NULL, `index` INTEGER NOT NULL, `volumeIndex` INTEGER, `name` TEXT NOT NULL, `content` TEXT NOT NULL, FOREIGN KEY(`novelDetailId`) REFERENCES `NovelDetail`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`novelDetailId`, `volumeIndex`) REFERENCES `Volume`(`novelDetailId`, `index`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -197,7 +197,7 @@
         "foreignKeys": [
           {
             "table": "NovelDetail",
-            "onDelete": "NO ACTION",
+            "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
               "novelDetailId"
@@ -284,7 +284,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"57c1c9c0e387a20fe4184f94dd579698\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"671c77e1392e63b27511ba67e5b9110f\")"
     ]
   }
 }

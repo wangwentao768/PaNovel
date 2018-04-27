@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import cc.aoeiuv020.panovel.local.BookListData
+import cc.aoeiuv020.panovel.sql.dao.BookListDao
 import cc.aoeiuv020.panovel.sql.db.AppDatabase
 import cc.aoeiuv020.panovel.util.assetsRead
 import com.google.gson.Gson
@@ -34,11 +35,13 @@ class BookListTest : AnkoLogger {
 
     lateinit var context: Context
 
+    lateinit var dao: BookListDao
 
     @Before
     fun setUp() {
         context = InstrumentationRegistry.getTargetContext()
         AppDatabase.init(context)
+        dao = AppDatabase.instance.bookListDao()
         val dbFile = AppDatabase.dbFile
         if (!setUpIsDone) {
             setUpIsDone = true
@@ -56,8 +59,7 @@ class BookListTest : AnkoLogger {
 
     private fun importBookListFromAssetsJson(name: String) {
         val bookListData = readBookListData(name)
-        val bookList = AppDatabase.instance.bookListDao()
-                .importBookList(bookListData)
+        val bookList = dao.importBookList(bookListData)
         bookList.apply {
             assertTrue(id != null)
             assertEquals(bookListData.name, bookList.name)
@@ -65,19 +67,24 @@ class BookListTest : AnkoLogger {
     }
 
     @Test
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun a1_import_book_list() {
+    fun a1_import_test_book_list() {
         importBookListFromAssetsJson("bookList-test.json")
+        val count = dao.getNovelMiniCount()
+        assertEquals(7, count)
     }
 
     @Test
-    fun a2_import_another_book_list() {
+    fun a2_import_backup_book_list() {
         importBookListFromAssetsJson("bookList-backup.json")
+        val count = dao.getNovelMiniCount()
+        assertEquals(14, count)
     }
 
     @Test
     fun a3_import_again() {
-        a1_import_book_list()
+        importBookListFromAssetsJson("bookList-test.json")
+        val count = dao.getNovelMiniCount()
+        assertEquals(14, count)
     }
 
     @Test
@@ -87,8 +94,7 @@ class BookListTest : AnkoLogger {
         val bookList = bookLists.first { it.id == 1L }
         assertEquals("测试书架", bookList.name)
 
-        val novelMiniList = AppDatabase.instance.bookListDao()
-                .getNovelMiniInBookList(bookList.id!!)
+        val novelMiniList = dao.getNovelMiniInBookList(bookList.id!!)
         val bookListData = readBookListData("bookList-test.json")
         val expected = bookListData.list.map { it.requester.extra }
                 .sorted()
@@ -103,10 +109,25 @@ class BookListTest : AnkoLogger {
                 .getBookListById(1L)!!
         assertEquals("测试书架", bookList.name)
         val newName = "新名字书架"
-        AppDatabase.instance.bookListDao()
-                .renameBookList(bookList.id!!, newName)
-        val result = AppDatabase.instance.bookListDao()
-                .getBookListById(bookList.id!!)!!
+        dao.renameBookList(bookList.id!!, newName)
+        val result = dao.getBookListById(bookList.id!!)!!
         assertEquals(newName, result.name)
+    }
+
+    @Test
+    fun a6_remove_second() {
+        val bookList = dao.getBookListById(2L)!!
+        assertEquals("书架备份", bookList.name)
+        dao.removeBookList(bookList.id!!)
+        val count = dao.getNovelMiniCount()
+        // TODO: 同步删除小说，这里应该7本，
+        assertEquals(14, count)
+    }
+
+    @Test
+    fun a7_import_backup_book_list() {
+        importBookListFromAssetsJson("bookList-backup.json")
+        val count = dao.getNovelMiniCount()
+        assertEquals(14, count)
     }
 }
