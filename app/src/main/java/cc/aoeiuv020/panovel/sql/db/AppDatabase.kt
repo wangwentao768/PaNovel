@@ -6,6 +6,7 @@ import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
 import android.content.Context
 import cc.aoeiuv020.panovel.sql.dao.BookListDao
+import cc.aoeiuv020.panovel.sql.dao.NovelMiniDao
 import cc.aoeiuv020.panovel.sql.entity.BookList
 import cc.aoeiuv020.panovel.sql.entity.BookListItem
 import cc.aoeiuv020.panovel.sql.entity.NovelMini
@@ -21,17 +22,10 @@ import java.io.File
 @TypeConverters(value = [Converters::class])
 abstract class AppDatabase : RoomDatabase() {
     companion object {
-        lateinit var instance: AppDatabase
-            private set
         lateinit var dbFile: File
             private set
 
-        @Synchronized
-        fun init(context: Context) {
-            instance = build(context)
-        }
-
-        private fun build(context: Context): AppDatabase {
+        fun build(context: Context): AppDatabase {
             dbFile = context.getDatabasePath("panovel-app.db")
             return Room.databaseBuilder(
                     context.applicationContext,
@@ -42,4 +36,5 @@ abstract class AppDatabase : RoomDatabase() {
     }
 
     abstract fun bookListDao(): BookListDao
+    abstract fun novelMiniDao(): NovelMiniDao
 }

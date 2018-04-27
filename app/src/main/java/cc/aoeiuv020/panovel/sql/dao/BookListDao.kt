@@ -2,7 +2,6 @@ package cc.aoeiuv020.panovel.sql.dao
 
 import android.arch.persistence.room.*
 import android.support.annotation.VisibleForTesting
-import cc.aoeiuv020.panovel.local.BookListData
 import cc.aoeiuv020.panovel.sql.entity.BookList
 import cc.aoeiuv020.panovel.sql.entity.BookListItem
 import cc.aoeiuv020.panovel.sql.entity.NovelMini
@@ -14,7 +13,7 @@ import cc.aoeiuv020.panovel.sql.entity.NovelMini
 @Dao
 abstract class BookListDao {
     @Insert
-    protected abstract fun insertBookList(bookList: BookList): Long
+    abstract fun insertBookList(bookList: BookList): Long
 
     @Update
     protected abstract fun updateBookList(bookList: BookList)
@@ -23,10 +22,7 @@ abstract class BookListDao {
     protected abstract fun deleteBookList(bookList: BookList)
 
     @Insert
-    protected abstract fun insertNovelMini(novelMini: NovelMini): Long
-
-    @Insert
-    protected abstract fun insertBookListItem(bookListItem: BookListItem)
+    abstract fun insertBookListItem(bookListItem: BookListItem)
 
     @Query("select * from BookList")
     abstract fun getAllBookLists(): List<BookList>
@@ -34,10 +30,6 @@ abstract class BookListDao {
     @Query("select * from BookList where id = :id")
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     abstract fun getBookListById(id: Long): BookList?
-
-    @Query("select count(*) from NovelMini")
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    abstract fun getNovelMiniCount(): Int
 
     /**
      * join效率不敢保证，也没测试，
@@ -51,42 +43,6 @@ abstract class BookListDao {
             " where BookList.id = :id")
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     abstract fun getNovelMiniInBookList(id: Long): List<NovelMini>
-
-    @Query("select * from NovelMini" +
-            " where detailRequesterType = :type" +
-            " and detailRequesterExtra = :extra")
-    protected abstract fun queryByDetailRequester(type: String, extra: String): NovelMini?
-
-    /**
-     * 查询，没有就新建一个插入，并拿出id,
-     */
-    private fun queryOrNew(type: String, extra: String): NovelMini {
-        return queryByDetailRequester(type, extra)
-                ?: run {
-                    val newNovelMini = NovelMini.new(type, extra)
-                    val newNovelMiniId = insertNovelMini(newNovelMini)
-                    newNovelMini.id = newNovelMiniId
-                    newNovelMini
-                }
-    }
-
-    @Transaction
-    open fun importBookList(bookListData: BookListData): BookList {
-        val bookList = BookList().apply {
-            name = bookListData.name
-        }
-        val id = insertBookList(bookList)
-        bookList.id = id
-        bookListData.list.forEach { novelItem ->
-            val type = novelItem.requester.type
-            val extra = novelItem.requester.extra
-            val novelMiniId = queryOrNew(type, extra).id
-                    ?: throw IllegalStateException("impossible, NovelMini.id is null")
-            val bookListItem = BookListItem.new(id, novelMiniId)
-            insertBookListItem(bookListItem)
-        }
-        return bookList
-    }
 
     @Transaction
     open fun renameBookList(id: Long, name: String) {

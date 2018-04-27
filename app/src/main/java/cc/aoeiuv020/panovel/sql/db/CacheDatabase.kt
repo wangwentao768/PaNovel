@@ -21,17 +21,10 @@ import java.io.File
 @TypeConverters(value = [Converters::class])
 abstract class CacheDatabase : RoomDatabase() {
     companion object {
-        lateinit var instance: CacheDatabase
-            private set
         lateinit var dbFile: File
             private set
 
-        @Synchronized
-        fun init(context: Context) {
-            instance = build(context)
-        }
-
-        private fun build(context: Context): CacheDatabase {
+        fun build(context: Context): CacheDatabase {
             dbFile = context.cacheDir.resolve("panovel-cache.db")
             return Room.databaseBuilder(
                     context.applicationContext,

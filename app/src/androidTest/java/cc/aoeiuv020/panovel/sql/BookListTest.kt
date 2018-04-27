@@ -40,8 +40,8 @@ class BookListTest : AnkoLogger {
     @Before
     fun setUp() {
         context = InstrumentationRegistry.getTargetContext()
-        AppDatabase.init(context)
-        dao = AppDatabase.instance.bookListDao()
+        DataManager.init(context)
+        dao = DataManager.app.bookListDao()
         val dbFile = AppDatabase.dbFile
         if (!setUpIsDone) {
             setUpIsDone = true
@@ -49,7 +49,11 @@ class BookListTest : AnkoLogger {
                 dbFile.delete()
             }
         }
-        assertEquals(dbFile.path, AppDatabase.instance.openHelper.databaseName)
+        assertEquals(dbFile.path, DataManager.app.openHelper.databaseName)
+    }
+
+    private fun getNovelMiniCount(): Int {
+        return DataManager.app.novelMiniDao().getNovelMiniCount()
     }
 
     private fun readBookListData(name: String): BookListData {
@@ -59,7 +63,7 @@ class BookListTest : AnkoLogger {
 
     private fun importBookListFromAssetsJson(name: String) {
         val bookListData = readBookListData(name)
-        val bookList = dao.importBookList(bookListData)
+        val bookList = DataManager.importBookList(bookListData)
         bookList.apply {
             assertTrue(id != null)
             assertEquals(bookListData.name, bookList.name)
@@ -69,28 +73,27 @@ class BookListTest : AnkoLogger {
     @Test
     fun a1_import_test_book_list() {
         importBookListFromAssetsJson("bookList-test.json")
-        val count = dao.getNovelMiniCount()
+        val count = getNovelMiniCount()
         assertEquals(7, count)
     }
 
     @Test
     fun a2_import_backup_book_list() {
         importBookListFromAssetsJson("bookList-backup.json")
-        val count = dao.getNovelMiniCount()
+        val count = getNovelMiniCount()
         assertEquals(14, count)
     }
 
     @Test
     fun a3_import_again() {
         importBookListFromAssetsJson("bookList-test.json")
-        val count = dao.getNovelMiniCount()
+        val count = getNovelMiniCount()
         assertEquals(14, count)
     }
 
     @Test
     fun a4_query_first() {
-        val bookLists = AppDatabase.instance.bookListDao()
-                .getAllBookLists()
+        val bookLists = dao.getAllBookLists()
         val bookList = bookLists.first { it.id == 1L }
         assertEquals("测试书架", bookList.name)
 
@@ -105,11 +108,10 @@ class BookListTest : AnkoLogger {
 
     @Test
     fun a5_rename_first() {
-        val bookList = AppDatabase.instance.bookListDao()
-                .getBookListById(1L)!!
+        val bookList = dao.getBookListById(1L)!!
         assertEquals("测试书架", bookList.name)
         val newName = "新名字书架"
-        dao.renameBookList(bookList.id!!, newName)
+        DataManager.renameBookList(bookList, newName)
         val result = dao.getBookListById(bookList.id!!)!!
         assertEquals(newName, result.name)
     }
@@ -118,8 +120,8 @@ class BookListTest : AnkoLogger {
     fun a6_remove_second() {
         val bookList = dao.getBookListById(2L)!!
         assertEquals("书架备份", bookList.name)
-        dao.removeBookList(bookList.id!!)
-        val count = dao.getNovelMiniCount()
+        DataManager.removeBookList(bookList)
+        val count = getNovelMiniCount()
         // TODO: 同步删除小说，这里应该7本，
         assertEquals(14, count)
     }
@@ -127,7 +129,7 @@ class BookListTest : AnkoLogger {
     @Test
     fun a7_import_backup_book_list() {
         importBookListFromAssetsJson("bookList-backup.json")
-        val count = dao.getNovelMiniCount()
+        val count = getNovelMiniCount()
         assertEquals(14, count)
     }
 }

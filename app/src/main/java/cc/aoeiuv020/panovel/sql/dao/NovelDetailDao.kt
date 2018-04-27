@@ -31,9 +31,9 @@ abstract class NovelDetailDao {
 
     fun queryByDetailRequester(novelDetail: NovelDetail): NovelDetail? {
         val type = novelDetail.detailRequesterType
-                ?: throw IllegalArgumentException("require type is null,")
+                ?: throw IllegalArgumentException("require type was null,")
         val extra = novelDetail.detailRequesterExtra
-                ?: throw IllegalArgumentException("require extra is null,")
+                ?: throw IllegalArgumentException("require extra was null,")
         return queryByDetailRequester(type, extra)
     }
 
