@@ -10,7 +10,10 @@ import android.support.annotation.NonNull
  * Created by AoEiuV020 on 2018.04.26-19:37:08.
  */
 @Entity(
-        indices = [(Index(value = ["bookListId", "novelMiniId"], unique = true))],
+        indices = [
+            (Index(value = ["bookListId", "novelMiniId"], unique = true)),
+            (Index(value = ["novelMiniId"]))
+        ],
         foreignKeys = [
             (ForeignKey(
                     entity = BookList::class,

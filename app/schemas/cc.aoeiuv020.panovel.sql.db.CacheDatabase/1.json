@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "671c77e1392e63b27511ba67e5b9110f",
+    "identityHash": "5561354c2e5711e907224147e7c38ba3",
     "entities": [
       {
         "tableName": "NovelDetail",
@@ -192,6 +192,15 @@
               "index"
             ],
             "createSql": "CREATE UNIQUE INDEX `index_Chapter_novelDetailId_index` ON `${TABLE_NAME}` (`novelDetailId`, `index`)"
+          },
+          {
+            "name": "index_Chapter_novelDetailId_volumeIndex",
+            "unique": false,
+            "columnNames": [
+              "novelDetailId",
+              "volumeIndex"
+            ],
+            "createSql": "CREATE  INDEX `index_Chapter_novelDetailId_volumeIndex` ON `${TABLE_NAME}` (`novelDetailId`, `volumeIndex`)"
           }
         ],
         "foreignKeys": [
@@ -284,7 +293,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"671c77e1392e63b27511ba67e5b9110f\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"5561354c2e5711e907224147e7c38ba3\")"
     ]
   }
 }

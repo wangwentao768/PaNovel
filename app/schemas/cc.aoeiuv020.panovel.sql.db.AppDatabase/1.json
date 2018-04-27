@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "43450174526fe20d6988d7b78236f53d",
+    "identityHash": "ed6394e052bd290af36b721cfd6c35a3",
     "entities": [
       {
         "tableName": "NovelMini",
@@ -122,6 +122,14 @@
               "novelMiniId"
             ],
             "createSql": "CREATE UNIQUE INDEX `index_BookListItem_bookListId_novelMiniId` ON `${TABLE_NAME}` (`bookListId`, `novelMiniId`)"
+          },
+          {
+            "name": "index_BookListItem_novelMiniId",
+            "unique": false,
+            "columnNames": [
+              "novelMiniId"
+            ],
+            "createSql": "CREATE  INDEX `index_BookListItem_novelMiniId` ON `${TABLE_NAME}` (`novelMiniId`)"
           }
         ],
         "foreignKeys": [
@@ -152,7 +160,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"43450174526fe20d6988d7b78236f53d\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ed6394e052bd290af36b721cfd6c35a3\")"
     ]
   }
 }
