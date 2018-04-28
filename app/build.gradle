@@ -101,8 +101,8 @@ dependencies {
     implementation 'cn.jiguang.sdk:jpush:3.1.2'
     implementation 'cn.jiguang.sdk:jcore:1.2.0'
     implementation project(':baseJar')
-    implementation "android.arch.persistence.room:runtime:$arch_version"
-    kapt "android.arch.persistence.room:compiler:$arch_version"
+    implementation "android.arch.persistence.room:runtime:$room_version"
+    kapt "android.arch.persistence.room:compiler:$room_version"
     implementation 'com.android.support:multidex:1.0.3'
 }
 

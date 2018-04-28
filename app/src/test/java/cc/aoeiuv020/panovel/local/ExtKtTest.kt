@@ -52,7 +52,11 @@ class ExtKtTest {
 
     @Test
     fun toBean() {
-        val str = "{\"name\":\"飘天文学\",\"baseUrl\":\"http://www.piaotian.com/\",\"logo\":\"http://www.piaotian.com/css/logo.gif\"}"
+        val str = """{
+  "name": "飘天文学",
+  "baseUrl": "http://www.piaotian.com/",
+  "logo": "http://www.piaotian.com/css/logo.gif"
+}"""
         val item = NovelContext.getNovelContextByName("飘天文学").getNovelSite()
         item.toJson().let {
             assertEquals(str, it)

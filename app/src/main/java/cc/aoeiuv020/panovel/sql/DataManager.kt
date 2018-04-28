@@ -7,6 +7,7 @@ import cc.aoeiuv020.panovel.sql.db.AppDatabase
 import cc.aoeiuv020.panovel.sql.db.CacheDatabase
 import cc.aoeiuv020.panovel.sql.entity.BookList
 import cc.aoeiuv020.panovel.sql.entity.BookListItem
+import cc.aoeiuv020.panovel.sql.entity.NovelMini
 
 /**
  *
@@ -45,15 +46,58 @@ object DataManager {
         bookList
     }
 
-    fun renameBookList(bookList: BookList, name: String) {
-        val id = bookList.id
-                ?: throw IllegalArgumentException("require BookList.id was null,")
-        return app.bookListDao().renameBookList(id, name)
+    fun getAllBookLists(): List<BookList> = app.runInTransaction<List<BookList>> {
+        app.bookListDao().getAllBookLists()
     }
 
-    fun removeBookList(bookList: BookList) {
+    fun getNovelMiniInBookList(bookList: BookList): List<NovelMini> = app.runInTransaction<List<NovelMini>> {
+        val id = bookList.id
+                ?: throw IllegalArgumentException("require id was null,")
+        app.bookListDao().getNovelMiniInBookList(id)
+    }
+
+    fun renameBookList(bookList: BookList, name: String) = app.runInTransaction {
         val id = bookList.id
                 ?: throw IllegalArgumentException("require BookList.id was null,")
-        return app.bookListDao().removeBookList(id)
+        app.bookListDao().renameBookList(id, name)
+    }
+
+    fun removeBookList(bookList: BookList) = app.runInTransaction {
+        val id = bookList.id
+                ?: throw IllegalArgumentException("require BookList.id was null,")
+        app.bookListDao().removeBookList(id)
+    }
+
+    /**
+     * id和detailRequester必须有个非空，
+     */
+    fun putBookshelf(novelMini: NovelMini) = app.runInTransaction {
+        novelMini.id?.also { id ->
+            app.bookshelfDao().putBookshelfById(id)
+            return@runInTransaction
+        }
+        val type = novelMini.detailRequesterType
+        val extra = novelMini.detailRequesterExtra
+        if (type != null && extra != null) {
+            app.bookshelfDao().putBookshelfByRequester(type, extra)
+        } else {
+            throw IllegalArgumentException("require id or (type and extra) both null,")
+        }
+    }
+
+    fun getAllBookshelf(): List<NovelMini> = app.runInTransaction<List<NovelMini>> {
+        app.bookshelfDao().getAllBookshelf()
+    }
+
+    fun putBookshelf(bookList: BookList) = app.runInTransaction {
+        val id = bookList.id
+                ?: throw IllegalArgumentException("require id was null,")
+        app.bookshelfDao().putBookshelfByBookListId(id)
+    }
+
+    fun removeBookshelf(bookList: BookList) = app.runInTransaction {
+        val id = bookList.id
+                ?: throw IllegalArgumentException("require id was null,")
+        app.bookshelfDao().removeBookshelfByBookListId(id)
     }
 }

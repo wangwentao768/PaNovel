@@ -22,9 +22,9 @@ import kotlin.math.min
  */
 @RunWith(AndroidJUnit4::class)
 @FixMethodOrder(value = MethodSorters.NAME_ASCENDING)
-class InsertSpeedTest : AnkoLogger {
+class CacheDatabaseTest : AnkoLogger {
     companion object {
-        private var setUpIsDone = false
+        var setUpIsDone = false
     }
 
     @Rule

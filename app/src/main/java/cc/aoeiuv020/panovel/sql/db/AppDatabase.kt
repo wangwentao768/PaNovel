@@ -6,6 +6,7 @@ import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
 import android.content.Context
 import cc.aoeiuv020.panovel.sql.dao.BookListDao
+import cc.aoeiuv020.panovel.sql.dao.BookshelfDao
 import cc.aoeiuv020.panovel.sql.dao.NovelMiniDao
 import cc.aoeiuv020.panovel.sql.entity.BookList
 import cc.aoeiuv020.panovel.sql.entity.BookListItem
@@ -36,5 +37,6 @@ abstract class AppDatabase : RoomDatabase() {
     }
 
     abstract fun bookListDao(): BookListDao
+    abstract fun bookshelfDao(): BookshelfDao
     abstract fun novelMiniDao(): NovelMiniDao
 }

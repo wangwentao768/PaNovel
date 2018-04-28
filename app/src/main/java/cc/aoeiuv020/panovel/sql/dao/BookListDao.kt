@@ -33,6 +33,7 @@ abstract class BookListDao {
 
     /**
      * join效率不敢保证，也没测试，
+     * 这表正常不会太大，没必要优化，
      */
     @Query("select Mini.*" +
             " from BookList" +
@@ -41,7 +42,6 @@ abstract class BookListDao {
             " join NovelMini Mini" +
             " on BookListItem.novelMiniId = Mini.id" +
             " where BookList.id = :id")
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     abstract fun getNovelMiniInBookList(id: Long): List<NovelMini>
 
     @Transaction
