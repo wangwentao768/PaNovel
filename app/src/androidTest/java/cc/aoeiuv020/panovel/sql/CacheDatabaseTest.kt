@@ -5,8 +5,6 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import cc.aoeiuv020.panovel.sql.dao.NovelDetailDao
 import cc.aoeiuv020.panovel.sql.db.CacheDatabase
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.FixMethodOrder
@@ -22,7 +20,7 @@ import kotlin.math.min
  */
 @RunWith(AndroidJUnit4::class)
 @FixMethodOrder(value = MethodSorters.NAME_ASCENDING)
-class CacheDatabaseTest : AnkoLogger {
+class CacheDatabaseTest {
     companion object {
         var setUpIsDone = false
     }
@@ -39,7 +37,7 @@ class CacheDatabaseTest : AnkoLogger {
     fun setUp() {
         val context: Context = InstrumentationRegistry.getTargetContext()
         DataManager.init(context)
-        db = DataManager.cache
+        db = DataManager.cache.db
         dao = db.novelDetailDao()
         val dbFile = CacheDatabase.dbFile
         if (!setUpIsDone) {
@@ -53,10 +51,14 @@ class CacheDatabaseTest : AnkoLogger {
     }
 
     @Test
+    fun a0_delete_all() {
+        // 26ms,
+        dao.deleteAll()
+    }
+
+    @Test
     fun a1_insert() {
-        // 36ms,
-        val nCount = dao.getCount()
-        info { "now Count: $nCount" }
+        // 6ms,
         val novel = TestUtil.createNovelDetail()
         dao.insertNovels(novel)
         val result = dao.queryByDetailRequester(novel)
@@ -78,9 +80,7 @@ class CacheDatabaseTest : AnkoLogger {
 
     @Test
     fun a3_insert_1w_transaction() {
-        // 830ms,
-        val nCount = dao.getCount()
-        info { "now Count: $nCount" }
+        // 742ms,
         val count = 10000
         db.runInTransaction {
             repeat(count) {
@@ -92,9 +92,7 @@ class CacheDatabaseTest : AnkoLogger {
 
     @Test
     fun a4_insert_1w_one_time() {
-        // 367ms,
-        val nCount = dao.getCount()
-        info { "now Count: $nCount" }
+        // 319ms,
         val count = 10000
         val novels = Array(count) {
             TestUtil.createNovelDetail()
@@ -104,9 +102,7 @@ class CacheDatabaseTest : AnkoLogger {
 
     @Test
     fun a5_insert_1w_step_501() {
-        // 362ms,
-        val nCount = dao.getCount()
-        info { "now Count: $nCount" }
+        // 333ms,
         val count = 10000
         val step = 501
         db.runInTransaction {
@@ -122,7 +118,7 @@ class CacheDatabaseTest : AnkoLogger {
 
     @Test
     fun a6_delete_all() {
-        // 385ms,
+        // 238ms,
         val result = dao.deleteAll()
         assertEquals(30001, result)
     }

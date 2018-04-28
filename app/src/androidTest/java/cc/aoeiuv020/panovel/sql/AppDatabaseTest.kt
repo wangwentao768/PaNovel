@@ -6,7 +6,6 @@ import android.support.test.runner.AndroidJUnit4
 import cc.aoeiuv020.panovel.local.BookListData
 import cc.aoeiuv020.panovel.util.assetsRead
 import com.google.gson.Gson
-import org.jetbrains.anko.AnkoLogger
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -22,22 +21,24 @@ import org.junit.runners.MethodSorters
  */
 @RunWith(AndroidJUnit4::class)
 @FixMethodOrder(value = MethodSorters.NAME_ASCENDING)
-class AppDatabaseTest : AnkoLogger {
+class AppDatabaseTest {
 
     @Rule
     @JvmField
     val watcher = TestUtil.timeWatcher
 
     lateinit var context: Context
+    lateinit var app: AppDatabaseManager
 
     @Before
     fun setUp() {
         context = InstrumentationRegistry.getTargetContext()
         DataManager.init(context)
+        app = DataManager.app
     }
 
     private fun getNovelMiniCount(): Int {
-        return DataManager.app.novelMiniDao().getNovelMiniCount()
+        return app.db.novelMiniDao().getNovelMiniCount()
     }
 
     private fun readBookListData(name: String): BookListData {
@@ -47,7 +48,7 @@ class AppDatabaseTest : AnkoLogger {
 
     private fun importBookListFromAssetsJson(name: String) {
         val bookListData = readBookListData(name)
-        val bookList = DataManager.importBookList(bookListData)
+        val bookList = app.importBookList(bookListData)
         bookList.apply {
             assertTrue(id != null)
             assertEquals(bookListData.name, bookList.name)
@@ -56,7 +57,7 @@ class AppDatabaseTest : AnkoLogger {
 
     @Test
     fun a0_remove_all() {
-        DataManager.app.clearAllTables()
+        app.db.clearAllTables()
     }
 
     @Test
@@ -82,11 +83,11 @@ class AppDatabaseTest : AnkoLogger {
 
     @Test
     fun a4_query_first() {
-        val bookLists = DataManager.getAllBookLists()
+        val bookLists = app.getAllBookLists()
         val bookList = bookLists.first()
         assertEquals("测试书架", bookList.name)
 
-        val novelMiniList = DataManager.getNovelMiniInBookList(bookList)
+        val novelMiniList = app.getNovelMiniInBookList(bookList)
         val bookListData = readBookListData("bookList-test.json")
         val expected = bookListData.list.map { it.requester.extra }
                 .sorted()
@@ -97,20 +98,20 @@ class AppDatabaseTest : AnkoLogger {
 
     @Test
     fun a5_rename_first() {
-        val bookList = DataManager.getAllBookLists().first()
+        val bookList = app.getAllBookLists().first()
         assertEquals("测试书架", bookList.name)
         val newName = "新名字书架"
-        DataManager.renameBookList(bookList, newName)
-        val result = DataManager.app.bookListDao()
+        app.renameBookList(bookList, newName)
+        val result = app.db.bookListDao()
                 .getBookListById(bookList.id!!)!!
         assertEquals(newName, result.name)
     }
 
     @Test
     fun a6_remove_second() {
-        val bookList = DataManager.getAllBookLists()[1]
+        val bookList = app.getAllBookLists()[1]
         assertEquals("书架备份", bookList.name)
-        DataManager.removeBookList(bookList)
+        app.removeBookList(bookList)
         val count = getNovelMiniCount()
         // TODO: 同步删除小说，这里应该7本，
         assertEquals(14, count)
@@ -125,7 +126,7 @@ class AppDatabaseTest : AnkoLogger {
 
     @Test
     fun az_remove_all() {
-        DataManager.app.clearAllTables()
+        app.db.clearAllTables()
     }
 
     @Test
@@ -137,22 +138,22 @@ class AppDatabaseTest : AnkoLogger {
 
     @Test
     fun b2_put_bookshelf() {
-        val novelMiniList = DataManager.getAllBookLists()
+        val novelMiniList = app.getAllBookLists()
                 .first().id!!.let {
-            DataManager.app.bookListDao()
+            app.db.bookListDao()
                     .getNovelMiniInBookList(it)
         }
         val novelMini = novelMiniList.first()
 
-        DataManager.putBookshelf(novelMini)
+        app.putBookshelf(novelMini)
     }
 
     @Test
     fun b3_get_bookshelf() {
-        val novelMiniList = DataManager.getAllBookshelf()
+        val novelMiniList = app.getAllBookshelf()
         assertEquals(1, novelMiniList.size)
-        DataManager.getNovelMiniInBookList(
-                DataManager.getAllBookLists().first()
+        app.getNovelMiniInBookList(
+                app.getAllBookLists().first()
         ).first().let { expected ->
             val actual = novelMiniList.first()
             assertEquals(expected.id, actual.id)
@@ -173,37 +174,37 @@ class AppDatabaseTest : AnkoLogger {
 
     @Test
     fun b5_put_bookshelf_by_book_list() {
-        val bookList = DataManager.getAllBookLists()
+        val bookList = app.getAllBookLists()
                 .first { "书架备份" == it.name }
-        DataManager.putBookshelf(bookList)
-        val novelMiniList = DataManager.getAllBookshelf()
+        app.putBookshelf(bookList)
+        val novelMiniList = app.getAllBookshelf()
         assertEquals(8, novelMiniList.size)
     }
 
     @Test
     fun b6_remove_bookshelf_by_book_list() {
-        DataManager.getAllBookLists()
+        app.getAllBookLists()
                 .first { "书架备份" == it.name }
                 .let {
-                    DataManager.removeBookshelf(it)
+                    app.removeBookshelf(it)
                 }
-        assertEquals(0, DataManager.getAllBookshelf().size)
+        assertEquals(0, app.getAllBookshelf().size)
 
-        DataManager.getAllBookLists().forEach {
-            DataManager.putBookshelf(it)
+        app.getAllBookLists().forEach {
+            app.putBookshelf(it)
         }
-        assertEquals(14, DataManager.getAllBookshelf().size)
+        assertEquals(14, app.getAllBookshelf().size)
 
-        DataManager.getAllBookLists()
+        app.getAllBookLists()
                 .first { "书架备份" == it.name }
                 .let {
-                    DataManager.removeBookshelf(it)
+                    app.removeBookshelf(it)
                 }
-        assertEquals(6, DataManager.getAllBookshelf().size)
+        assertEquals(6, app.getAllBookshelf().size)
     }
 
     @Test
     fun z_remove_all() {
-        DataManager.app.clearAllTables()
+        app.db.clearAllTables()
     }
 }
