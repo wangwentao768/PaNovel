@@ -25,7 +25,7 @@ class AppDatabaseTest {
 
     @Rule
     @JvmField
-    val watcher = TestUtil.timeWatcher
+    val watcher = SqlTestUtil.timeWatcher
 
     lateinit var context: Context
     lateinit var app: AppDatabaseManager

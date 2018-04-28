@@ -4,6 +4,7 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
 import android.arch.persistence.room.Update
+import android.support.annotation.VisibleForTesting
 import cc.aoeiuv020.panovel.sql.entity.NovelDetail
 
 /**
@@ -12,30 +13,25 @@ import cc.aoeiuv020.panovel.sql.entity.NovelDetail
  */
 @Dao
 abstract class NovelDetailDao {
-    /**
-     * 测试用，不要实用，
-     */
     @Insert
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     abstract fun insertNovels(vararg novelDetails: NovelDetail)
+
+    @Insert
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    abstract fun insertNovel(novelDetails: NovelDetail): Long
 
     @Query("delete from NovelDetail")
     abstract fun deleteAll(): Int
 
     @Update
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     abstract fun updateNovel(novelDetail: NovelDetail)
 
     @Query("select * from NovelDetail" +
             " where detailRequesterType = :type" +
             " and detailRequesterExtra = :extra")
     abstract fun queryByDetailRequester(type: String, extra: String): NovelDetail?
-
-    fun queryByDetailRequester(novelDetail: NovelDetail): NovelDetail? {
-        val type = novelDetail.detailRequesterType
-                ?: throw IllegalArgumentException("require type was null,")
-        val extra = novelDetail.detailRequesterExtra
-                ?: throw IllegalArgumentException("require extra was null,")
-        return queryByDetailRequester(type, extra)
-    }
 
     @Query("select count(*) from NovelDetail")
     abstract fun getCount(): Int

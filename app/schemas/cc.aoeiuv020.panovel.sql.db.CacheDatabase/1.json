@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "5561354c2e5711e907224147e7c38ba3",
+    "identityHash": "1ce1eb6fb9330a541f1df5eb45717125",
     "entities": [
       {
         "tableName": "NovelDetail",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `author` TEXT, `site` TEXT, `imageUrl` TEXT, `introduction` TEXT, `detailRequesterType` TEXT NOT NULL, `detailRequesterExtra` TEXT NOT NULL, `chaptersRequesterType` TEXT, `chaptersRequesterExtra` TEXT, `chapterCount` INTEGER, `chapterReadAt` INTEGER, `chapterNameLast` TEXT, `chapterNameReadAt` TEXT, `updateTime` INTEGER, `checkUpdateTime` INTEGER, `receiveUpdateTime` INTEGER, `remoteId` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `author` TEXT, `site` TEXT, `imageUrl` TEXT, `introduction` TEXT, `detailRequesterType` TEXT NOT NULL, `detailRequesterExtra` TEXT NOT NULL, `chaptersRequesterType` TEXT, `chaptersRequesterExtra` TEXT, `chapterCount` INTEGER, `chapterReadAt` INTEGER NOT NULL, `textReadAt` INTEGER NOT NULL, `chapterNameLast` TEXT, `chapterNameReadAt` TEXT, `updateTime` INTEGER, `checkUpdateTime` INTEGER, `receiveUpdateTime` INTEGER, `remoteId` INTEGER)",
         "fields": [
           {
             "fieldPath": "id",
@@ -78,7 +78,13 @@
             "fieldPath": "chapterReadAt",
             "columnName": "chapterReadAt",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
+          },
+          {
+            "fieldPath": "textReadAt",
+            "columnName": "textReadAt",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "chapterNameLast",
@@ -138,7 +144,7 @@
       },
       {
         "tableName": "Chapter",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `novelDetailId` INTEGER NOT NULL, `index` INTEGER NOT NULL, `volumeIndex` INTEGER, `name` TEXT NOT NULL, `content` TEXT NOT NULL, FOREIGN KEY(`novelDetailId`) REFERENCES `NovelDetail`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`novelDetailId`, `volumeIndex`) REFERENCES `Volume`(`novelDetailId`, `index`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `novelDetailId` INTEGER NOT NULL, `index` INTEGER NOT NULL, `volumeIndex` INTEGER, `name` TEXT NOT NULL, `textRequesterType` TEXT NOT NULL, `textRequesterExtra` TEXT NOT NULL, FOREIGN KEY(`novelDetailId`) REFERENCES `NovelDetail`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`novelDetailId`, `volumeIndex`) REFERENCES `Volume`(`novelDetailId`, `index`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -171,8 +177,14 @@
             "notNull": true
           },
           {
-            "fieldPath": "content",
-            "columnName": "content",
+            "fieldPath": "textRequesterType",
+            "columnName": "textRequesterType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "textRequesterExtra",
+            "columnName": "textRequesterExtra",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -289,11 +301,59 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "Content",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `textRequesterType` TEXT NOT NULL, `textRequesterExtra` TEXT NOT NULL, `content` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "textRequesterType",
+            "columnName": "textRequesterType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "textRequesterExtra",
+            "columnName": "textRequesterExtra",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "content",
+            "columnName": "content",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Content_textRequesterType_textRequesterExtra",
+            "unique": true,
+            "columnNames": [
+              "textRequesterType",
+              "textRequesterExtra"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Content_textRequesterType_textRequesterExtra` ON `${TABLE_NAME}` (`textRequesterType`, `textRequesterExtra`)"
+          }
+        ],
+        "foreignKeys": []
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"5561354c2e5711e907224147e7c38ba3\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1ce1eb6fb9330a541f1df5eb45717125\")"
     ]
   }
 }

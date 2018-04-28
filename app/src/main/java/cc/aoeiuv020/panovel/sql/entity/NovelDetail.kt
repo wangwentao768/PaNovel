@@ -79,7 +79,14 @@ class NovelDetail {
      * 阅读进度，
      * 阅读至的章节索引，
      */
+    @NonNull
     var chapterReadAt: Int? = null
+    /**
+     * 章节内的阅读进度，
+     * 看到第几页或者第几个字，具体没决定，
+     */
+    @NonNull
+    var textReadAt: Int? = null
     /**
      * 最新章节名,
      */

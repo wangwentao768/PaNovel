@@ -59,8 +59,16 @@ class Chapter {
     @NonNull
     var name: String? = null
     /**
-     * 小说正文，
+     * 章节内容请求者的类型，
+     * [textRequesterType], [textRequesterExtra] 两个字段合起来表示详情请求者，能用来请求这一章节内容，
      */
     @NonNull
-    var content: String? = null
+    var textRequesterType: String? = null
+    /**
+     * 章节内容请求者的参数，
+     * [textRequesterType], [textRequesterExtra] 两个字段合起来表示详情请求者，能用来请求这一章节内容，
+     */
+    @NonNull
+    var textRequesterExtra: String? = null
+
 }

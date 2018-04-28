@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ed6394e052bd290af36b721cfd6c35a3",
+    "identityHash": "ee7c63a4c4a22a9852115685370da354",
     "entities": [
       {
         "tableName": "NovelMini",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `detailRequesterType` TEXT NOT NULL, `detailRequesterExtra` TEXT NOT NULL, `bookshelf` INTEGER NOT NULL, `chapterReadAt` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `detailRequesterType` TEXT NOT NULL, `detailRequesterExtra` TEXT NOT NULL, `bookshelf` INTEGER NOT NULL, `chapterReadAt` INTEGER NOT NULL, `textReadAt` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -35,6 +35,12 @@
           {
             "fieldPath": "chapterReadAt",
             "columnName": "chapterReadAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "textReadAt",
+            "columnName": "textReadAt",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -160,7 +166,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ed6394e052bd290af36b721cfd6c35a3\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ee7c63a4c4a22a9852115685370da354\")"
     ]
   }
 }

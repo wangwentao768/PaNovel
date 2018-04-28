@@ -1,6 +1,7 @@
 package cc.aoeiuv020.panovel.sql.entity
 
 import android.arch.persistence.room.Entity
+import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
 import android.support.annotation.NonNull
 
@@ -12,7 +13,7 @@ import android.support.annotation.NonNull
  */
 @Entity(
         indices = [
-            (android.arch.persistence.room.Index(
+            (Index(
                     value = ["detailRequesterType", "detailRequesterExtra"],
                     unique = true
             ))
@@ -21,14 +22,21 @@ import android.support.annotation.NonNull
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 class NovelMini {
     companion object {
-        fun new(type: String, extra: String) = new(type, extra, false, 0)
-        fun new(type: String, extra: String, bookshelf: Boolean, chapterReadAt: Int): NovelMini = NovelMini().apply {
+        fun new(
+                type: String,
+                extra: String,
+                bookshelf: Boolean = false,
+                chapterReadAt: Int = 0,
+                textReadAt: Int = 0
+        ): NovelMini = NovelMini().apply {
             this.detailRequesterType = type
             this.detailRequesterExtra = extra
             this.bookshelf = bookshelf
             this.chapterReadAt = chapterReadAt
+            this.textReadAt = textReadAt
         }
     }
+
     /**
      * 普通的id, 在书单里外键用到，
      */
@@ -57,4 +65,10 @@ class NovelMini {
      */
     @NonNull
     var chapterReadAt: Int? = null
+    /**
+     * 章节内的阅读进度，
+     * 看到第几页或者第几个字，具体没决定，
+     */
+    @NonNull
+    var textReadAt: Int? = null
 }
