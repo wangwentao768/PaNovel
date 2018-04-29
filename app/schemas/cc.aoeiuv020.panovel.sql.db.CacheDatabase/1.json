@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1ce1eb6fb9330a541f1df5eb45717125",
+    "identityHash": "4d67989e997589a504aeb97cfb87b8d3",
     "entities": [
       {
         "tableName": "NovelDetail",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `author` TEXT, `site` TEXT, `imageUrl` TEXT, `introduction` TEXT, `detailRequesterType` TEXT NOT NULL, `detailRequesterExtra` TEXT NOT NULL, `chaptersRequesterType` TEXT, `chaptersRequesterExtra` TEXT, `chapterCount` INTEGER, `chapterReadAt` INTEGER NOT NULL, `textReadAt` INTEGER NOT NULL, `chapterNameLast` TEXT, `chapterNameReadAt` TEXT, `updateTime` INTEGER, `checkUpdateTime` INTEGER, `receiveUpdateTime` INTEGER, `remoteId` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `author` TEXT, `site` TEXT, `imageUrl` TEXT, `introduction` TEXT, `detailRequesterType` TEXT NOT NULL, `detailRequesterExtra` TEXT NOT NULL, `chaptersRequesterType` TEXT, `chaptersRequesterExtra` TEXT, `chapterReadAt` INTEGER NOT NULL, `textReadAt` INTEGER NOT NULL, `chapterNameLast` TEXT, `chapterNameReadAt` TEXT, `updateTime` INTEGER, `checkUpdateTime` INTEGER, `receiveUpdateTime` INTEGER, `remoteId` INTEGER)",
         "fields": [
           {
             "fieldPath": "id",
@@ -66,12 +66,6 @@
             "fieldPath": "chaptersRequesterExtra",
             "columnName": "chaptersRequesterExtra",
             "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "chapterCount",
-            "columnName": "chapterCount",
-            "affinity": "INTEGER",
             "notNull": false
           },
           {
@@ -244,7 +238,7 @@
       },
       {
         "tableName": "Volume",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `novelDetailId` INTEGER NOT NULL, `index` INTEGER NOT NULL, `name` TEXT, FOREIGN KEY(`novelDetailId`) REFERENCES `NovelDetail`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `novelDetailId` INTEGER NOT NULL, `index` INTEGER NOT NULL, `name` TEXT NOT NULL, FOREIGN KEY(`novelDetailId`) REFERENCES `NovelDetail`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -268,7 +262,7 @@
             "fieldPath": "name",
             "columnName": "name",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -353,7 +347,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1ce1eb6fb9330a541f1df5eb45717125\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"4d67989e997589a504aeb97cfb87b8d3\")"
     ]
   }
 }

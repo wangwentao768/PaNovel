@@ -71,11 +71,6 @@ class NovelDetail {
      */
     var chaptersRequesterExtra: String? = null
     /**
-     * 章节数，
-     * 考虑要不要读另一张表，
-     */
-    var chapterCount: Int? = null
-    /**
      * 阅读进度，
      * 阅读至的章节索引，
      */

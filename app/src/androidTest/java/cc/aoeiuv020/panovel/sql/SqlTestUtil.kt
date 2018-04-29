@@ -39,7 +39,6 @@ object SqlTestUtil : AnkoLogger {
         chaptersRequesterExtra = "chapter-requester-extra-$number"
         imageUrl = "http://imageUrl-$number"
         introduction = "introduction-$number"
-        chapterCount = random.nextInt()
         chapterReadAt = random.nextInt()
         textReadAt = random.nextInt()
         chapterNameLast = "chapter-name-last-$number"

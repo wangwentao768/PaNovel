@@ -42,5 +42,6 @@ class Volume {
      * 卷名，
      * 考虑要不要用非空，
      */
+    @NonNull
     var name: String? = null
 }

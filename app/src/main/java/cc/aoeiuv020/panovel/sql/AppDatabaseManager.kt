@@ -40,20 +40,23 @@ class AppDatabaseManager(context: Context) {
     }
 
     fun getNovelMiniInBookList(bookList: BookList): List<NovelMini> = db.runInTransaction<List<NovelMini>> {
-        val id = bookList.id
-                ?: throw IllegalArgumentException("require id was null,")
+        val id = requireNotNull(bookList.id) {
+            "require bookList.id was null,"
+        }
         db.bookListDao().getNovelMiniInBookList(id)
     }
 
     fun renameBookList(bookList: BookList, name: String) = db.runInTransaction {
-        val id = bookList.id
-                ?: throw IllegalArgumentException("require BookList.id was null,")
+        val id = requireNotNull(bookList.id) {
+            "require bookList.id was null,"
+        }
         db.bookListDao().renameBookList(id, name)
     }
 
     fun removeBookList(bookList: BookList) = db.runInTransaction {
-        val id = bookList.id
-                ?: throw IllegalArgumentException("require BookList.id was null,")
+        val id = requireNotNull(bookList.id) {
+            "require bookList.id was null,"
+        }
         db.bookListDao().removeBookList(id)
     }
 
@@ -79,14 +82,16 @@ class AppDatabaseManager(context: Context) {
     }
 
     fun putBookshelf(bookList: BookList) = db.runInTransaction {
-        val id = bookList.id
-                ?: throw IllegalArgumentException("require id was null,")
+        val id = requireNotNull(bookList.id) {
+            "require bookList.id was null,"
+        }
         db.bookshelfDao().putBookshelfByBookListId(id)
     }
 
     fun removeBookshelf(bookList: BookList) = db.runInTransaction {
-        val id = bookList.id
-                ?: throw IllegalArgumentException("require id was null,")
+        val id = requireNotNull(bookList.id) {
+            "require bookList.id was null,"
+        }
         db.bookshelfDao().removeBookshelfByBookListId(id)
     }
 }
