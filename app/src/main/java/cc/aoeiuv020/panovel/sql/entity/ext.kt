@@ -9,23 +9,8 @@ import cc.aoeiuv020.panovel.api.Requester
  */
 
 val NovelMini.detailRequester: DetailRequester
-    get() = Requester.deserialization(detailRequesterType!!, detailRequesterExtra!!) as DetailRequester
+    get() = Requester.deserialization(detailRequesterType, detailRequesterExtra) as DetailRequester
 val NovelDetail.detailRequester: DetailRequester
-    get() = Requester.deserialization(detailRequesterType!!, detailRequesterExtra!!) as DetailRequester
+    get() = Requester.deserialization(detailRequesterType, detailRequesterExtra) as DetailRequester
 val NovelDetail.chaptersRequester: ChaptersRequester
-    get() = Requester.deserialization(detailRequesterType!!, detailRequesterExtra!!) as ChaptersRequester
-
-fun NovelDetail.toData(): NovelDetailData = NovelDetailData(
-        novelMiniData = NovelMiniData(
-                detailRequester = detailRequester,
-                bookshelf = bookshelf!!,
-                chapterReadAt = chapterReadAt!!,
-                textReadAt = textReadAt!!
-        ),
-        chaptersRequester = chaptersRequester,
-        name = name!!,
-        author = author!!,
-        site = site!!,
-        introduction = introduction!!
-)
-
+    get() = Requester.deserialization(detailRequesterType, detailRequesterExtra) as ChaptersRequester

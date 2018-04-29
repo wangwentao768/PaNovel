@@ -28,35 +28,36 @@ object SqlTestUtil : AnkoLogger {
     private val random = Random()
     private var number: Int = 0
 
-    fun createNovelDetail(): NovelDetail = NovelDetail().apply {
+    fun createNovelDetail(): NovelDetail = NovelDetail(
+            name = "name-$number",
+            author = "author-$number",
+            site = "site",
+            detailRequesterType = "detail-requester-type-default",
+            detailRequesterExtra = "detail-requester-extra-$number",
+            chaptersRequesterType = "chapter-requester-type-default",
+            chaptersRequesterExtra = "chapter-requester-extra-$number",
+            imageUrl = "http://imageUrl-$number",
+            introduction = "introduction-$number",
+            chapterReadAt = random.nextInt(),
+            textReadAt = random.nextInt(),
+            chapterNameLast = "chapter-name-last-$number",
+            chapterNameReadAt = "chapter-name-read-at-$number",
+            updateTime = Date(random.nextLong()),
+            checkUpdateTime = Date(random.nextLong()),
+            receiveUpdateTime = Date(random.nextLong()),
+            remoteId = random.nextInt()
+    ).also {
         number++
-        name = "name-$number"
-        author = "author-$number"
-        site = "site"
-        detailRequesterType = "detail-requester-type-default"
-        detailRequesterExtra = "detail-requester-extra-$number"
-        chaptersRequesterType = "chapter-requester-type-default"
-        chaptersRequesterExtra = "chapter-requester-extra-$number"
-        imageUrl = "http://imageUrl-$number"
-        introduction = "introduction-$number"
-        chapterReadAt = random.nextInt()
-        textReadAt = random.nextInt()
-        chapterNameLast = "chapter-name-last-$number"
-        chapterNameReadAt = "chapter-name-read-at-$number"
-        updateTime = Date(random.nextLong())
-        checkUpdateTime = Date(random.nextLong())
-        receiveUpdateTime = Date(random.nextLong())
-        remoteId = random.nextInt()
     }
 
-    fun createChapters(novelDetail: NovelDetail, size: Int) = List(size) { index ->
-        Chapter().apply {
-            this.novelDetailId = novelDetail.id
-            this.index = index
-            this.name = "novel-chapter-name-$index"
-            this.textRequesterType = "text-requester-type-default"
-            this.textRequesterExtra = "text-requester-extra-$index"
-        }
+    fun createChapters(novelDetailId: Long, size: Int) = List(size) { index ->
+        Chapter(
+                novelDetailId = novelDetailId,
+                index = index,
+                name = "novel-chapter-name-$index",
+                textRequesterType = "text-requester-type-default",
+                textRequesterExtra = "text-requester-extra-$index"
+        )
     }
 
 }

@@ -4,7 +4,6 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.ForeignKey
 import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
-import android.support.annotation.NonNull
 
 /**
  * 缓存数据库中的小说的卷，
@@ -22,26 +21,23 @@ import android.support.annotation.NonNull
         ]
 )
 @Suppress("MemberVisibilityCanBePrivate", "unused")
-class Volume {
-    /**
-     * 普通的id,
-     */
-    @PrimaryKey(autoGenerate = true)
-    var id: Long? = null
-    /**
-     * 外键，小说ID,
-     */
-    @NonNull
-    var novelDetailId: Long? = null
-    /**
-     * 卷索引，第几卷，
-     */
-    @NonNull
-    var index: Int? = null
-    /**
-     * 卷名，
-     * 考虑要不要用非空，
-     */
-    @NonNull
-    var name: String? = null
-}
+data class Volume(
+        /**
+         * 普通的id,
+         */
+        @PrimaryKey(autoGenerate = true)
+        val id: Long? = null,
+        /**
+         * 外键，小说ID,
+         */
+        val novelDetailId: Long,
+        /**
+         * 卷索引，第几卷，
+         */
+        val index: Int,
+        /**
+         * 卷名，
+         * 考虑要不要用非空，
+         */
+        val name: String
+)

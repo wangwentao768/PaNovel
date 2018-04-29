@@ -2,7 +2,6 @@ package cc.aoeiuv020.panovel.sql.entity
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
-import android.support.annotation.NonNull
 
 /**
  * 永久数据库中的书单，
@@ -10,15 +9,14 @@ import android.support.annotation.NonNull
  */
 @Entity
 @Suppress("MemberVisibilityCanBePrivate", "unused")
-class BookList {
-    /**
+data class BookList(
+        /**
      * 普通的id,
      */
     @PrimaryKey(autoGenerate = true)
-    var id: Long? = null
-    /**
+        var id: Long? = null,
+        /**
      * 书单名，可以重复，
      */
-    @NonNull
-    var name: String? = null
-}
+        var name: String
+)

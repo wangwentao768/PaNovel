@@ -4,7 +4,6 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.ForeignKey
 import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
-import android.support.annotation.NonNull
 
 /**
  * 缓存数据库中的章节表，
@@ -31,44 +30,38 @@ import android.support.annotation.NonNull
         ]
 )
 @Suppress("MemberVisibilityCanBePrivate", "unused")
-class Chapter {
-    /**
-     * 普通的id,
-     */
-    @PrimaryKey(autoGenerate = true)
-    var id: Long? = null
-    /**
-     * 外键[NovelDetail]表的id,
-     */
-    @NonNull
-    var novelDetailId: Long? = null
-    /**
-     * 章节索引，
-     * 也就是第几章，
-     */
-    @NonNull
-    var index: Int? = null
-    /**
-     * 卷索引，
-     * 支持为空，没有卷，全部默认一卷，
-     */
-    var volumeIndex: Int? = null
-    /**
-     * 章节名，
-     */
-    @NonNull
-    var name: String? = null
-    /**
-     * 章节内容请求者的类型，
-     * [textRequesterType], [textRequesterExtra] 两个字段合起来表示详情请求者，能用来请求这一章节内容，
-     */
-    @NonNull
-    var textRequesterType: String? = null
-    /**
-     * 章节内容请求者的参数，
-     * [textRequesterType], [textRequesterExtra] 两个字段合起来表示详情请求者，能用来请求这一章节内容，
-     */
-    @NonNull
-    var textRequesterExtra: String? = null
-
-}
+data class Chapter(
+        /**
+         * 普通的id,
+         */
+        @PrimaryKey(autoGenerate = true)
+        val id: Long? = null,
+        /**
+         * 外键[NovelDetail]表的id,
+         */
+        val novelDetailId: Long,
+        /**
+         * 章节索引，
+         * 也就是第几章，
+         */
+        val index: Int,
+        /**
+         * 卷索引，
+         * 支持为空，没有卷，全部默认一卷，
+         */
+        val volumeIndex: Int? = null,
+        /**
+         * 章节名，
+         */
+        val name: String,
+        /**
+         * 章节内容请求者的类型，
+         * [textRequesterType], [textRequesterExtra] 两个字段合起来表示详情请求者，能用来请求这一章节内容，
+         */
+        val textRequesterType: String,
+        /**
+         * 章节内容请求者的参数，
+         * [textRequesterType], [textRequesterExtra] 两个字段合起来表示详情请求者，能用来请求这一章节内容，
+         */
+        val textRequesterExtra: String
+)

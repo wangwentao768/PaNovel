@@ -6,7 +6,6 @@ import cc.aoeiuv020.panovel.sql.db.CacheDatabase
 import cc.aoeiuv020.panovel.sql.entity.Chapter
 import cc.aoeiuv020.panovel.sql.entity.NovelDetail
 import cc.aoeiuv020.panovel.sql.entity.NovelMini
-import cc.aoeiuv020.panovel.sql.entity.NovelMiniData
 
 /**
  * 封装一个数据库多个表多个DAO的联用，
@@ -32,29 +31,15 @@ class CacheDatabaseManager(context: Context) {
         db.chapterDao().queryChaptersByNovelDetailId(id)
     }
 
-    fun queryByDetailRequester(novelMiniData: NovelMiniData): NovelDetail? = db.runInTransaction<NovelDetail?> {
-        val type = novelMiniData.detailRequester.type
-        val extra = novelMiniData.detailRequester.extra
-        db.novelDetailDao().queryByDetailRequester(type, extra)
-    }
-
     fun queryByDetailRequester(novelMini: NovelMini): NovelDetail? = db.runInTransaction<NovelDetail?> {
-        val type = requireNotNull(novelMini.detailRequesterType) {
-            "require novelMini.detailRequesterType was null,"
-        }
-        val extra = requireNotNull(novelMini.detailRequesterExtra) {
-            "require novelMini.detailRequesterExtra was null,"
-        }
+        val type = novelMini.detailRequesterType
+        val extra = novelMini.detailRequesterExtra
         db.novelDetailDao().queryByDetailRequester(type, extra)
     }
 
     fun queryByDetailRequester(novelDetail: NovelDetail): NovelDetail? = db.runInTransaction<NovelDetail?> {
-        val type = requireNotNull(novelDetail.detailRequesterType) {
-            "require novelDetail.detailRequesterType was null,"
-        }
-        val extra = requireNotNull(novelDetail.detailRequesterExtra) {
-            "require novelDetail.detailRequesterExtra was null,"
-        }
+        val type = novelDetail.detailRequesterType
+        val extra = novelDetail.detailRequesterExtra
         db.novelDetailDao().queryByDetailRequester(type, extra)
     }
 

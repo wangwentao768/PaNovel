@@ -131,8 +131,7 @@ class CacheDatabaseTest {
         repeat(1000) {
             SqlTestUtil.createNovelDetail().let {
                 db.novelDetailDao().insertNovel(it).let { id ->
-                    it.id = id
-                    SqlTestUtil.createChapters(it, 5000).let { chapters ->
+                    SqlTestUtil.createChapters(id, 5000).let { chapters ->
                         db.chapterDao().insertChapters(chapters)
                     }
                 }
@@ -143,20 +142,21 @@ class CacheDatabaseTest {
     @Test
     fun b2_update_chapters() = db.runInTransaction {
         // 327ms,
-        val novelDetail = SqlTestUtil.createNovelDetail().apply {
-            detailRequesterExtra = "detail-requester-extra-444"
-        }.let {
+        // RedMi3, 2100ms,
+        val novelDetail = SqlTestUtil.createNovelDetail().copy(
+                detailRequesterExtra = "detail-requester-extra-512"
+        ).let {
             cache.queryByDetailRequester(it)
         }!!
-        val chapters = SqlTestUtil.createChapters(novelDetail, 10000)
+        val chapters = SqlTestUtil.createChapters(novelDetail.id!!, 10000)
         cache.putChapters(novelDetail, chapters)
     }
 
     @Test
     fun b3_query_chapters() = db.runInTransaction {
-        val novelDetail = SqlTestUtil.createNovelDetail().apply {
-            detailRequesterExtra = "detail-requester-extra-444"
-        }.let {
+        val novelDetail = SqlTestUtil.createNovelDetail().copy(
+                detailRequesterExtra = "detail-requester-extra-444"
+        ).let {
             cache.queryByDetailRequester(it)
         }!!
         val chapters = cache.getChapters(novelDetail)

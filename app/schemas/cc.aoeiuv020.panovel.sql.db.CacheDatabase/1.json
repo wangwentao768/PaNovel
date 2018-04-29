@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "4d67989e997589a504aeb97cfb87b8d3",
+    "identityHash": "d113a6b3e7673d20645f7b32f382e102",
     "entities": [
       {
         "tableName": "NovelDetail",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `author` TEXT, `site` TEXT, `imageUrl` TEXT, `introduction` TEXT, `detailRequesterType` TEXT NOT NULL, `detailRequesterExtra` TEXT NOT NULL, `chaptersRequesterType` TEXT, `chaptersRequesterExtra` TEXT, `chapterReadAt` INTEGER NOT NULL, `textReadAt` INTEGER NOT NULL, `chapterNameLast` TEXT, `chapterNameReadAt` TEXT, `updateTime` INTEGER, `checkUpdateTime` INTEGER, `receiveUpdateTime` INTEGER, `remoteId` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `author` TEXT NOT NULL, `site` TEXT NOT NULL, `imageUrl` TEXT NOT NULL, `introduction` TEXT NOT NULL, `detailRequesterType` TEXT NOT NULL, `detailRequesterExtra` TEXT NOT NULL, `chaptersRequesterType` TEXT NOT NULL, `chaptersRequesterExtra` TEXT NOT NULL, `chapterReadAt` INTEGER NOT NULL, `textReadAt` INTEGER NOT NULL, `bookshelf` INTEGER NOT NULL, `chapterNameLast` TEXT, `chapterNameReadAt` TEXT, `updateTime` INTEGER, `checkUpdateTime` INTEGER, `receiveUpdateTime` INTEGER, `remoteId` INTEGER)",
         "fields": [
           {
             "fieldPath": "id",
@@ -18,31 +18,31 @@
             "fieldPath": "name",
             "columnName": "name",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "author",
             "columnName": "author",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "site",
             "columnName": "site",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "imageUrl",
             "columnName": "imageUrl",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "introduction",
             "columnName": "introduction",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "detailRequesterType",
@@ -60,13 +60,13 @@
             "fieldPath": "chaptersRequesterType",
             "columnName": "chaptersRequesterType",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "chaptersRequesterExtra",
             "columnName": "chaptersRequesterExtra",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "chapterReadAt",
@@ -77,6 +77,12 @@
           {
             "fieldPath": "textReadAt",
             "columnName": "textReadAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bookshelf",
+            "columnName": "bookshelf",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -347,7 +353,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"4d67989e997589a504aeb97cfb87b8d3\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"d113a6b3e7673d20645f7b32f382e102\")"
     ]
   }
 }

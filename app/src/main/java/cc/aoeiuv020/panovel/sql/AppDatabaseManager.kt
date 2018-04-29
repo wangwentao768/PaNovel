@@ -19,9 +19,9 @@ class AppDatabaseManager(context: Context) {
 
 
     fun importBookList(bookListData: BookListData): BookList = db.runInTransaction<BookList> {
-        val bookList = BookList().apply {
-            this.name = bookListData.name
-        }
+        val bookList = BookList(
+                name = bookListData.name
+        )
         val id = db.bookListDao().insertBookList(bookList)
         bookList.id = id
         bookListData.list.forEach { novelItem ->
@@ -70,11 +70,7 @@ class AppDatabaseManager(context: Context) {
         }
         val type = novelMini.detailRequesterType
         val extra = novelMini.detailRequesterExtra
-        if (type != null && extra != null) {
-            db.bookshelfDao().putBookshelfByRequester(type, extra)
-        } else {
-            throw IllegalArgumentException("require id or (type and extra) both null,")
-        }
+        db.bookshelfDao().putBookshelfByRequester(type, extra)
     }
 
     fun getAllBookshelf(): List<NovelMini> = db.runInTransaction<List<NovelMini>> {

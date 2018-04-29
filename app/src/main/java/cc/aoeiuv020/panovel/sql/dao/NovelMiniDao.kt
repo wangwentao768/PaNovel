@@ -31,9 +31,9 @@ abstract class NovelMiniDao {
         return queryByDetailRequester(type, extra)
                 ?: run {
                     val newNovelMini = NovelMini.new(type, extra)
-                    val newNovelMiniId = insertNovelMini(newNovelMini)
-                    newNovelMini.id = newNovelMiniId
-                    newNovelMini
+                    newNovelMini.copy(
+                            id = insertNovelMini(newNovelMini)
+                    )
                 }
     }
 

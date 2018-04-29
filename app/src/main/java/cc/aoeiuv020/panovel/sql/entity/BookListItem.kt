@@ -4,7 +4,6 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.ForeignKey
 import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
-import android.support.annotation.NonNull
 
 /**
  * Created by AoEiuV020 on 2018.04.26-19:37:08.
@@ -29,27 +28,26 @@ import android.support.annotation.NonNull
         ]
 )
 @Suppress("MemberVisibilityCanBePrivate", "unused")
-class BookListItem {
+data class BookListItem(
+        /**
+         * 普通的id,
+         */
+        @PrimaryKey(autoGenerate = true)
+        val id: Long? = null,
+        /**
+         * 外键，书单id,
+         */
+        val bookListId: Long,
+        /**
+         * 外键，小说id,
+         */
+        val novelMiniId: Long
+) {
     companion object {
-        fun new(bookListId: Long, novelMiniId: Long) = BookListItem().apply {
-            this.bookListId = bookListId
-            this.novelMiniId = novelMiniId
-        }
+        fun new(bookListId: Long, novelMiniId: Long) = BookListItem(
+                bookListId = bookListId,
+                novelMiniId = novelMiniId
+        )
     }
 
-    /**
-     * 普通的id,
-     */
-    @PrimaryKey(autoGenerate = true)
-    var id: Long? = null
-    /**
-     * 外键，书单id,
-     */
-    @NonNull
-    var bookListId: Long? = null
-    /**
-     * 外键，小说id,
-     */
-    @NonNull
-    var novelMiniId: Long? = null
 }
