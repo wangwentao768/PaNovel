@@ -6,6 +6,7 @@ import cc.aoeiuv020.panovel.sql.db.CacheDatabase
 import cc.aoeiuv020.panovel.sql.entity.Chapter
 import cc.aoeiuv020.panovel.sql.entity.NovelDetail
 import cc.aoeiuv020.panovel.sql.entity.NovelMini
+import cc.aoeiuv020.panovel.sql.entity.NovelMiniData
 
 /**
  * 封装一个数据库多个表多个DAO的联用，
@@ -29,6 +30,12 @@ class CacheDatabaseManager(context: Context) {
             "require novelDetail.id was null,"
         }
         db.chapterDao().queryChaptersByNovelDetailId(id)
+    }
+
+    fun queryByDetailRequester(novelMiniData: NovelMiniData): NovelDetail? = db.runInTransaction<NovelDetail?> {
+        val type = novelMiniData.detailRequester.type
+        val extra = novelMiniData.detailRequester.extra
+        db.novelDetailDao().queryByDetailRequester(type, extra)
     }
 
     fun queryByDetailRequester(novelMini: NovelMini): NovelDetail? = db.runInTransaction<NovelDetail?> {

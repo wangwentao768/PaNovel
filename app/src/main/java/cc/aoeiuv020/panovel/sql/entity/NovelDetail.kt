@@ -28,25 +28,30 @@ class NovelDetail {
     /**
      * 小说名，
      */
+    @NonNull
     var name: String? = null
     /**
      * 作者名，
      */
+    @NonNull
     var author: String? = null
     /**
      * 网站名，
      * 考虑要不要把网站放另一个表，
      */
+    @NonNull
     var site: String? = null
     /**
      * 图片地址，
      * 考虑要不要用两个字段表示，能支持只有地址拿不到的图片，
      * 应该不用，只是小说的话，应该没有哪个网站给小说封面做防盗链，
      */
+    @NonNull
     var imageUrl: String? = null
     /**
      * 简介，
      */
+    @NonNull
     var introduction: String? = null
     /**
      * 详情请求者的类型，
@@ -64,11 +69,13 @@ class NovelDetail {
      * 章节列表请求者的类型，
      * [chaptersRequesterType], [chaptersRequesterExtra] 两个字段合起来表示章节列表请求者，能用来请求到小说的一切，
      */
+    @NonNull
     var chaptersRequesterType: String? = null
     /**
      * 章节列表请求者的参数，
      * [chaptersRequesterType], [chaptersRequesterExtra] 两个字段合起来表示章节列表请求者，能用来请求到小说的一切，
      */
+    @NonNull
     var chaptersRequesterExtra: String? = null
     /**
      * 阅读进度，
@@ -82,6 +89,13 @@ class NovelDetail {
      */
     @NonNull
     var textReadAt: Int? = null
+    /**
+     * 是否在书架上，
+     */
+    @NonNull
+    var bookshelf: Boolean? = null
+
+
     /**
      * 最新章节名,
      */
@@ -108,3 +122,4 @@ class NovelDetail {
      */
     var remoteId: Int? = null
 }
+
