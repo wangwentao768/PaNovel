@@ -130,7 +130,8 @@ class Qidian : NovelContext() {
             return null
         }
         val root = request(genre.requester)
-        val a = root.select("#page-container > div > ul > li > a.lbf-pagination-next").first() ?: return null
+        val a = root.select("#page-container > div > ul > li > a.lbf-pagination-next").first()
+                ?: return null
         val url = a.absHref()
         if (url.isEmpty()) return null
         return NovelGenre(genre.name, url)
@@ -238,32 +239,32 @@ class Qidian : NovelContext() {
         return Gson().fromJson(categoryJson, JsonObject::class.java)
                 .getAsJsonObject("data")
                 .getAsJsonArray("vs").map {
-            it.asJsonObject.apply { getAsJsonPrimitive("vS").asInt.let { vipVolume = it == 1 } }
-                    .getAsJsonArray("cs").map {
-                it.asJsonObject.let {
-                    val chapterName = it.getAsJsonPrimitive("cN").asString
-                    val cU = try {
-                        // 有用户反应这里出问题，但是没反馈清楚，直接把这字段改成不必要的，
-                        it.getAsJsonPrimitive("cU").asString
-                    } catch (_: Exception) {
-                        ""
-                    }
-                    val chapterId = it.getAsJsonPrimitive("id").asInt.toString()
-                    val uT = it.getAsJsonPrimitive("uT").asString
-                    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-                    val updateTime = sdf.parse(uT)
-                    if (!vipVolume) {
-                        // 免费卷，
-                        NovelChapter(chapterName, FreeRequester(bookId, chapterId, cU), updateTime)
-                    } else {
-                        // VIP卷，
-                        NovelChapter(chapterName, VipRequester(bookId, chapterId), updateTime)
-                    }
+                    it.asJsonObject.apply { getAsJsonPrimitive("vS").asInt.let { vipVolume = it == 1 } }
+                            .getAsJsonArray("cs").map {
+                                it.asJsonObject.let {
+                                    val chapterName = it.getAsJsonPrimitive("cN").asString
+                                    val cU = try {
+                                        // 有用户反应这里出问题，但是没反馈清楚，直接把这字段改成不必要的，
+                                        it.getAsJsonPrimitive("cU").asString
+                                    } catch (_: Exception) {
+                                        ""
+                                    }
+                                    val chapterId = it.getAsJsonPrimitive("id").asInt.toString()
+                                    val uT = it.getAsJsonPrimitive("uT").asString
+                                    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                                    val updateTime = sdf.parse(uT)
+                                    if (!vipVolume) {
+                                        // 免费卷，
+                                        NovelChapter(chapterName, FreeRequester(bookId, chapterId, cU), updateTime)
+                                    } else {
+                                        // VIP卷，
+                                        NovelChapter(chapterName, VipRequester(bookId, chapterId), updateTime)
+                                    }
+                                }
+                            }
+                }.reduce { acc, list ->
+                    acc + list
                 }
-            }
-        }.reduce { acc, list ->
-            acc + list
-        }
     }
 
     /**
@@ -363,7 +364,7 @@ class Qidian : NovelContext() {
             }
             val id = cachedId
             val urlMd5 = qidianMd5Hex(url)
-            val plain = "QDLite!@#$%|${System.currentTimeMillis()}|$deviceId|$id|1|1.0.0|1000147|$urlMd5"
+            val plain = "QDLite!@#$%^|${System.currentTimeMillis()}|$deviceId|$id|1|1.0.0|1000147|$urlMd5"
             val sign = URLEncoder.encode(qidianDes3(plain).replace(" ", ""), "ascii")
             return super.connect().cookie("QDSign", sign)
         }

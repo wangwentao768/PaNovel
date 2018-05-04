@@ -15,6 +15,7 @@ import android.arch.persistence.room.PrimaryKey
             ))
         ]
 )
+@Suppress("MemberVisibilityCanBePrivate", "unused")
 data class Content(
         /**
          * 普通的id,

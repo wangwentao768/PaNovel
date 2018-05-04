@@ -11,12 +11,12 @@ import android.arch.persistence.room.PrimaryKey
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 data class BookList(
         /**
-     * 普通的id,
-     */
-    @PrimaryKey(autoGenerate = true)
+         * 普通的id,
+         */
+        @PrimaryKey(autoGenerate = true)
         var id: Long? = null,
         /**
-     * 书单名，可以重复，
-     */
+         * 书单名，可以重复，
+         */
         var name: String
 )
