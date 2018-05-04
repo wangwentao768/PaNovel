@@ -6,6 +6,7 @@ import cc.aoeiuv020.panovel.local.BookListData
 import cc.aoeiuv020.panovel.sql.db.AppDatabase
 import cc.aoeiuv020.panovel.sql.entity.BookList
 import cc.aoeiuv020.panovel.sql.entity.BookListItem
+import cc.aoeiuv020.panovel.sql.entity.toSql
 
 /**
  * 封装一个数据库多个表多个DAO的联用，
@@ -24,12 +25,9 @@ class AppDatabaseManager(context: Context) {
         val id = db.bookListDao().insertBookList(bookList)
         bookList.id = id
         bookListData.list.forEach { novelItem ->
-            val type = novelItem.requester.type
-            val extra = novelItem.requester.extra
             val bookListItem = BookListItem(
                     bookListId = id,
-                    detailRequesterType = type,
-                    detailRequesterExtra = extra
+                    detailRequester = novelItem.requester.toSql()
             )
             db.bookListDao().insertBookListItem(bookListItem)
         }

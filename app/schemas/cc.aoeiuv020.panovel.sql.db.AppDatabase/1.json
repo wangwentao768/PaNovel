@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "add9ed67830c3a7fd35a82928c8301b8",
+    "identityHash": "99316257077ae92245255532e718be3e",
     "entities": [
       {
         "tableName": "BookList",
@@ -32,7 +32,7 @@
       },
       {
         "tableName": "BookListItem",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `bookListId` INTEGER NOT NULL, `detailRequesterType` TEXT NOT NULL, `detailRequesterExtra` TEXT NOT NULL, FOREIGN KEY(`bookListId`) REFERENCES `BookList`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `bookListId` INTEGER NOT NULL, `detail_requester_type` TEXT NOT NULL, `detail_requester_extra` TEXT NOT NULL, FOREIGN KEY(`bookListId`) REFERENCES `BookList`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -47,14 +47,14 @@
             "notNull": true
           },
           {
-            "fieldPath": "detailRequesterType",
-            "columnName": "detailRequesterType",
+            "fieldPath": "detailRequester.type",
+            "columnName": "detail_requester_type",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "detailRequesterExtra",
-            "columnName": "detailRequesterExtra",
+            "fieldPath": "detailRequester.extra",
+            "columnName": "detail_requester_extra",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -67,14 +67,14 @@
         },
         "indices": [
           {
-            "name": "index_BookListItem_bookListId_detailRequesterType_detailRequesterExtra",
+            "name": "index_BookListItem_bookListId_detail_requester_type_detail_requester_extra",
             "unique": true,
             "columnNames": [
               "bookListId",
-              "detailRequesterType",
-              "detailRequesterExtra"
+              "detail_requester_type",
+              "detail_requester_extra"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_BookListItem_bookListId_detailRequesterType_detailRequesterExtra` ON `${TABLE_NAME}` (`bookListId`, `detailRequesterType`, `detailRequesterExtra`)"
+            "createSql": "CREATE UNIQUE INDEX `index_BookListItem_bookListId_detail_requester_type_detail_requester_extra` ON `${TABLE_NAME}` (`bookListId`, `detail_requester_type`, `detail_requester_extra`)"
           }
         ],
         "foreignKeys": [
@@ -93,7 +93,7 @@
       },
       {
         "tableName": "Bookshelf",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `detailRequesterType` TEXT NOT NULL, `detailRequesterExtra` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `detail_requester_type` TEXT NOT NULL, `detail_requester_extra` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -102,14 +102,14 @@
             "notNull": false
           },
           {
-            "fieldPath": "detailRequesterType",
-            "columnName": "detailRequesterType",
+            "fieldPath": "detailRequester.type",
+            "columnName": "detail_requester_type",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "detailRequesterExtra",
-            "columnName": "detailRequesterExtra",
+            "fieldPath": "detailRequester.extra",
+            "columnName": "detail_requester_extra",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -122,38 +122,26 @@
         },
         "indices": [
           {
-            "name": "index_Bookshelf_detailRequesterType_detailRequesterExtra",
+            "name": "index_Bookshelf_detail_requester_type_detail_requester_extra",
             "unique": true,
             "columnNames": [
-              "detailRequesterType",
-              "detailRequesterExtra"
+              "detail_requester_type",
+              "detail_requester_extra"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_Bookshelf_detailRequesterType_detailRequesterExtra` ON `${TABLE_NAME}` (`detailRequesterType`, `detailRequesterExtra`)"
+            "createSql": "CREATE UNIQUE INDEX `index_Bookshelf_detail_requester_type_detail_requester_extra` ON `${TABLE_NAME}` (`detail_requester_type`, `detail_requester_extra`)"
           }
         ],
         "foreignKeys": []
       },
       {
         "tableName": "ReadProgress",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `detailRequesterType` TEXT NOT NULL, `detailRequesterExtra` TEXT NOT NULL, `chapterReadAt` INTEGER NOT NULL, `textReadAt` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `chapterReadAt` INTEGER NOT NULL, `textReadAt` INTEGER NOT NULL, `detail_requester_type` TEXT NOT NULL, `detail_requester_extra` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
             "notNull": false
-          },
-          {
-            "fieldPath": "detailRequesterType",
-            "columnName": "detailRequesterType",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "detailRequesterExtra",
-            "columnName": "detailRequesterExtra",
-            "affinity": "TEXT",
-            "notNull": true
           },
           {
             "fieldPath": "chapterReadAt",
@@ -166,6 +154,18 @@
             "columnName": "textReadAt",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "detailRequester.type",
+            "columnName": "detail_requester_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "detailRequester.extra",
+            "columnName": "detail_requester_extra",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -176,13 +176,13 @@
         },
         "indices": [
           {
-            "name": "index_ReadProgress_detailRequesterType_detailRequesterExtra",
+            "name": "index_ReadProgress_detail_requester_type_detail_requester_extra",
             "unique": true,
             "columnNames": [
-              "detailRequesterType",
-              "detailRequesterExtra"
+              "detail_requester_type",
+              "detail_requester_extra"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_ReadProgress_detailRequesterType_detailRequesterExtra` ON `${TABLE_NAME}` (`detailRequesterType`, `detailRequesterExtra`)"
+            "createSql": "CREATE UNIQUE INDEX `index_ReadProgress_detail_requester_type_detail_requester_extra` ON `${TABLE_NAME}` (`detail_requester_type`, `detail_requester_extra`)"
           }
         ],
         "foreignKeys": []
@@ -190,7 +190,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"add9ed67830c3a7fd35a82928c8301b8\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"99316257077ae92245255532e718be3e\")"
     ]
   }
 }

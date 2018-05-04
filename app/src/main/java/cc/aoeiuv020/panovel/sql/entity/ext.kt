@@ -11,28 +11,28 @@ import cc.aoeiuv020.panovel.api.NovelDetail as NovelDetailApi
  * Created by AoEiuV020 on 2018.04.29-18:48:10.
  */
 
-val NovelDetail.detailRequester: DetailRequester
-    get() = Requester.deserialization(detailRequesterType, detailRequesterExtra) as DetailRequester
-val NovelDetail.chaptersRequester: ChaptersRequester
-    get() = Requester.deserialization(detailRequesterType, detailRequesterExtra) as ChaptersRequester
+fun Requester.toSql(): RequesterData = RequesterData(type, extra)
 
-val NovelDetailApi.sql: NovelDetail
-    get() = NovelDetail(
-            name = this.novel.name,
-            author = this.novel.author,
-            site = this.novel.site,
-            imageUrl = this.bigImg,
-            introduction = this.introduction,
-            detailRequesterType = this.novel.requester.type,
-            detailRequesterExtra = this.novel.requester.extra,
-            chaptersRequesterType = this.requester.type,
-            chaptersRequesterExtra = this.requester.extra
-    )
-val NovelDetail.api: NovelDetailApi
-    get() = NovelDetailApi(
-            NovelItem(this.name, this.author, this.site, this.detailRequester),
-            this.imageUrl,
-            Date(0),
-            this.introduction,
-            this.chaptersRequester
-    )
+@Suppress("UNCHECKED_CAST")
+fun <T : Requester> RequesterData.toApi(): T =
+        Requester.deserialization(type, extra) as T
+
+fun NovelDetailApi.toSql(): NovelDetail =
+        NovelDetail(
+                name = this.novel.name,
+                author = this.novel.author,
+                site = this.novel.site,
+                imageUrl = this.bigImg,
+                introduction = this.introduction,
+                detailRequester = this.novel.requester.toSql(),
+                chaptersRequester = this.requester.toSql()
+        )
+
+fun NovelDetail.toApi(): NovelDetailApi =
+        NovelDetailApi(
+                NovelItem(this.name, this.author, this.site, this.detailRequester.toApi<DetailRequester>()),
+                this.imageUrl,
+                Date(0),
+                this.introduction,
+                this.chaptersRequester.toApi<ChaptersRequester>()
+        )

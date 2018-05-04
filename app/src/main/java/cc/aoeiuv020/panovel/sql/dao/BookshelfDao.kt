@@ -5,6 +5,7 @@ import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import cc.aoeiuv020.panovel.sql.entity.Bookshelf
+import cc.aoeiuv020.panovel.sql.entity.RequesterData
 
 /**
  *
@@ -15,14 +16,21 @@ abstract class BookshelfDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun put(bookshelf: Bookshelf)
 
-    @Query("delete from Bookshelf where detailRequesterType = :type and detailRequesterExtra = :extra")
+    @Query("delete from Bookshelf where detail_requester_type = :type and detail_requester_extra = :extra")
     abstract fun remove(type: String, extra: String)
 
     @Query("select * from Bookshelf")
     abstract fun list(): List<Bookshelf>
 
-    @Query("select count(*) from Bookshelf where detailRequesterType = :type and detailRequesterExtra = :extra")
+    @Query("select count(*) from Bookshelf where detail_requester_type = :type and detail_requester_extra = :extra")
     abstract fun contains(type: String, extra: String): Boolean
 
-    fun contains(bookshelf: Bookshelf) = contains(bookshelf.detailRequesterType, bookshelf.detailRequesterExtra)
+    fun contains(bookshelf: Bookshelf) =
+            contains(bookshelf.detailRequester)
+
+    fun contains(requesterData: RequesterData) =
+            contains(
+                    requesterData.type,
+                    requesterData.extra
+            )
 }

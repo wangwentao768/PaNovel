@@ -1,5 +1,6 @@
 package cc.aoeiuv020.panovel.sql.entity
 
+import android.arch.persistence.room.Embedded
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
@@ -10,7 +11,7 @@ import android.arch.persistence.room.PrimaryKey
 @Entity(
         indices = [
             (Index(
-                    value = ["detailRequesterType", "detailRequesterExtra"],
+                    value = ["detail_requester_type", "detail_requester_extra"],
                     unique = true
             ))
         ]
@@ -24,14 +25,10 @@ data class ReadProgress(
         val id: Long? = null,
         /**
          * 详情请求者的类型，
-         * [detailRequesterType], [detailRequesterExtra] 两个字段合起来表示详情请求者，能用来请求到小说的一切，
+         * "detail_requester_type", "detail_requester_extra" 两个字段合起来表示详情请求者，能用来请求到小说的一切，
          */
-        val detailRequesterType: String,
-        /**
-         * 详情请求者的参数，
-         * [detailRequesterType], [detailRequesterExtra] 两个字段合起来表示详情请求者，能用来请求到小说的一切，
-         */
-        val detailRequesterExtra: String,
+        @Embedded(prefix = "detail_requester_")
+        val detailRequester: RequesterData,
         /**
          * 阅读进度，
          * 阅读至的章节索引，

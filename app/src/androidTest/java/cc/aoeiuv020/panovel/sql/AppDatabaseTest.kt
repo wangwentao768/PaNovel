@@ -7,6 +7,7 @@ import android.support.test.runner.AndroidJUnit4
 import cc.aoeiuv020.panovel.local.BookListData
 import cc.aoeiuv020.panovel.sql.db.AppDatabase
 import cc.aoeiuv020.panovel.sql.entity.Bookshelf
+import cc.aoeiuv020.panovel.sql.entity.RequesterData
 import cc.aoeiuv020.panovel.util.assetsRead
 import com.google.gson.Gson
 import org.junit.Assert.assertFalse
@@ -51,8 +52,7 @@ class AppDatabaseTest {
     @Test
     fun a1_contains() {
         val book = Bookshelf(
-                detailRequesterType = "type",
-                detailRequesterExtra = "extra"
+                detailRequester = RequesterData("type", "extra")
         )
         db.bookshelfDao().contains(book).also {
             assertFalse(it)

@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "227f9a9ef42e9d25bd024f6d9bb50406",
+    "identityHash": "1c13acf3948cc0628150a9c0c368f618",
     "entities": [
       {
         "tableName": "NovelDetail",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `author` TEXT NOT NULL, `site` TEXT NOT NULL, `imageUrl` TEXT NOT NULL, `introduction` TEXT NOT NULL, `detailRequesterType` TEXT NOT NULL, `detailRequesterExtra` TEXT NOT NULL, `chaptersRequesterType` TEXT NOT NULL, `chaptersRequesterExtra` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `author` TEXT NOT NULL, `site` TEXT NOT NULL, `imageUrl` TEXT NOT NULL, `introduction` TEXT NOT NULL, `detail_requester_type` TEXT NOT NULL, `detail_requester_extra` TEXT NOT NULL, `chapters_requester_type` TEXT NOT NULL, `chapters_requester_extra` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -45,26 +45,26 @@
             "notNull": true
           },
           {
-            "fieldPath": "detailRequesterType",
-            "columnName": "detailRequesterType",
+            "fieldPath": "detailRequester.type",
+            "columnName": "detail_requester_type",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "detailRequesterExtra",
-            "columnName": "detailRequesterExtra",
+            "fieldPath": "detailRequester.extra",
+            "columnName": "detail_requester_extra",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "chaptersRequesterType",
-            "columnName": "chaptersRequesterType",
+            "fieldPath": "chaptersRequester.type",
+            "columnName": "chapters_requester_type",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "chaptersRequesterExtra",
-            "columnName": "chaptersRequesterExtra",
+            "fieldPath": "chaptersRequester.extra",
+            "columnName": "chapters_requester_extra",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -77,38 +77,26 @@
         },
         "indices": [
           {
-            "name": "index_NovelDetail_detailRequesterType_detailRequesterExtra",
+            "name": "index_NovelDetail_detail_requester_type_detail_requester_extra",
             "unique": true,
             "columnNames": [
-              "detailRequesterType",
-              "detailRequesterExtra"
+              "detail_requester_type",
+              "detail_requester_extra"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_NovelDetail_detailRequesterType_detailRequesterExtra` ON `${TABLE_NAME}` (`detailRequesterType`, `detailRequesterExtra`)"
+            "createSql": "CREATE UNIQUE INDEX `index_NovelDetail_detail_requester_type_detail_requester_extra` ON `${TABLE_NAME}` (`detail_requester_type`, `detail_requester_extra`)"
           }
         ],
         "foreignKeys": []
       },
       {
         "tableName": "NovelStatus",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `detailRequesterType` TEXT NOT NULL, `detailRequesterExtra` TEXT NOT NULL, `chapterReadAt` INTEGER NOT NULL, `textReadAt` INTEGER NOT NULL, `bookshelf` INTEGER NOT NULL, `chaptersCount` INTEGER NOT NULL, `chapterNameLast` TEXT, `chapterNameReadAt` TEXT, `readTime` INTEGER, `updateTime` INTEGER, `checkUpdateTime` INTEGER, `receiveUpdateTime` INTEGER, `remoteId` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `chapterReadAt` INTEGER NOT NULL, `textReadAt` INTEGER NOT NULL, `bookshelf` INTEGER NOT NULL, `chaptersCount` INTEGER NOT NULL, `chapterNameLast` TEXT, `chapterNameReadAt` TEXT, `readTime` INTEGER, `updateTime` INTEGER, `checkUpdateTime` INTEGER, `receiveUpdateTime` INTEGER, `remoteId` INTEGER, `detail_requester_type` TEXT NOT NULL, `detail_requester_extra` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
             "notNull": false
-          },
-          {
-            "fieldPath": "detailRequesterType",
-            "columnName": "detailRequesterType",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "detailRequesterExtra",
-            "columnName": "detailRequesterExtra",
-            "affinity": "TEXT",
-            "notNull": true
           },
           {
             "fieldPath": "chapterReadAt",
@@ -175,6 +163,18 @@
             "columnName": "remoteId",
             "affinity": "INTEGER",
             "notNull": false
+          },
+          {
+            "fieldPath": "detailRequester.type",
+            "columnName": "detail_requester_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "detailRequester.extra",
+            "columnName": "detail_requester_extra",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -185,13 +185,13 @@
         },
         "indices": [
           {
-            "name": "index_NovelStatus_detailRequesterType_detailRequesterExtra",
+            "name": "index_NovelStatus_detail_requester_type_detail_requester_extra",
             "unique": true,
             "columnNames": [
-              "detailRequesterType",
-              "detailRequesterExtra"
+              "detail_requester_type",
+              "detail_requester_extra"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_NovelStatus_detailRequesterType_detailRequesterExtra` ON `${TABLE_NAME}` (`detailRequesterType`, `detailRequesterExtra`)"
+            "createSql": "CREATE UNIQUE INDEX `index_NovelStatus_detail_requester_type_detail_requester_extra` ON `${TABLE_NAME}` (`detail_requester_type`, `detail_requester_extra`)"
           }
         ],
         "foreignKeys": []
@@ -247,7 +247,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"227f9a9ef42e9d25bd024f6d9bb50406\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1c13acf3948cc0628150a9c0c368f618\")"
     ]
   }
 }

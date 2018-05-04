@@ -16,12 +16,6 @@ class CacheDatabaseManager(context: Context) {
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val db: CacheDatabase = CacheDatabase.getInstance(context)
 
-    fun queryByDetailRequester(novelDetail: NovelDetail): NovelDetail? {
-        val type = novelDetail.detailRequesterType
-        val extra = novelDetail.detailRequesterExtra
-        return queryByDetailRequester(type, extra)
-    }
-
     fun queryByDetailRequester(detailRequester: DetailRequester): NovelDetail? {
         return queryByDetailRequester(detailRequester.type, detailRequester.extra)
     }

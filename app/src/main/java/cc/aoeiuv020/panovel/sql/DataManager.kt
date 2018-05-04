@@ -2,11 +2,6 @@ package cc.aoeiuv020.panovel.sql
 
 import android.content.Context
 import android.support.annotation.VisibleForTesting
-import cc.aoeiuv020.panovel.api.DetailRequester
-import cc.aoeiuv020.panovel.sql.entity.NovelDetail
-import cc.aoeiuv020.panovel.sql.entity.NovelStatus
-import cc.aoeiuv020.panovel.sql.entity.api
-import cc.aoeiuv020.panovel.sql.entity.sql
 import cc.aoeiuv020.panovel.api.NovelDetail as NovelDetailApi
 
 /**
@@ -31,21 +26,4 @@ object DataManager {
         }
     }
 
-    private fun getNovelDetail(detailRequester: DetailRequester): NovelDetail? {
-        return cache.queryByDetailRequester(detailRequester)
-    }
-
-    fun getNovelDetailToApi(detailRequester: DetailRequester): NovelDetailApi? {
-        // TODO: NovelDetailApi里的update要处理一下，
-        return getNovelDetail(detailRequester)?.api
-    }
-
-    fun putNovelDetailFromApi(novelDetailApi: NovelDetailApi) {
-        // TODO: novelDetailApi里的update要处理一下，
-        return cache.putNovelDetail(novelDetailApi.sql)
-    }
-
-    fun getNovelStatus(detailRequester: DetailRequester): NovelStatus? {
-        return cache.queryStatusByDetailRequester(detailRequester)
-    }
 }

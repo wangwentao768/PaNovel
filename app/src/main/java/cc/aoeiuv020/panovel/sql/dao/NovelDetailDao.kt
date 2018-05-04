@@ -25,9 +25,7 @@ abstract class NovelDetailDao {
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     abstract fun updateNovel(novelDetail: NovelDetail)
 
-    @Query("select * from NovelDetail" +
-            " where detailRequesterType = :type" +
-            " and detailRequesterExtra = :extra")
+    @Query("select * from NovelDetail where detail_requester_type = :type and detail_requester_extra = :extra")
     abstract fun queryByDetailRequester(type: String, extra: String): NovelDetail?
 
     @Query("select count(*) from NovelDetail")
