@@ -57,7 +57,8 @@ class BookListFragmentAdapter(context: Context, val presenter: BookListFragmentP
 
         override fun setData(data: BookListData) {
             itemView.setOnClickListener {
-                BookListActivity.start(context, data.name)
+                TODO()
+//                BookListActivity.start(context, data.name)
             }
             itemView.setOnLongClickListener {
                 val list = listOf(R.string.remove to { i: Int -> remove(data, i) },

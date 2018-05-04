@@ -20,6 +20,7 @@ import cc.aoeiuv020.panovel.local.Settings
 import cc.aoeiuv020.panovel.local.toBean
 import cc.aoeiuv020.panovel.local.toJson
 import cc.aoeiuv020.panovel.share.Share
+import cc.aoeiuv020.panovel.sql.entity.RequesterData
 import cc.aoeiuv020.panovel.text.NovelTextActivity
 import cc.aoeiuv020.panovel.util.alert
 import cc.aoeiuv020.panovel.util.alertError
@@ -38,6 +39,9 @@ import org.jetbrains.anko.*
  */
 class NovelDetailActivity : AppCompatActivity(), IView, AnkoLogger {
     companion object {
+        fun start(context: Context, requesterData: RequesterData) {
+            TODO()
+        }
         fun start(context: Context, novelItem: NovelItem) {
             context.startActivity<NovelDetailActivity>("novelItem" to novelItem.toJson())
         }

@@ -6,6 +6,7 @@ import cc.aoeiuv020.panovel.api.DetailRequester
 import cc.aoeiuv020.panovel.sql.db.CacheDatabase
 import cc.aoeiuv020.panovel.sql.entity.NovelDetail
 import cc.aoeiuv020.panovel.sql.entity.NovelStatus
+import cc.aoeiuv020.panovel.sql.entity.RequesterData
 
 /**
  * 封装一个数据库多个表多个DAO的联用，
@@ -16,6 +17,9 @@ class CacheDatabaseManager(context: Context) {
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val db: CacheDatabase = CacheDatabase.getInstance(context)
 
+    fun getNovelDetail(requester: RequesterData): NovelDetail? {
+        return queryByDetailRequester(requester.type, requester.extra)
+    }
     fun queryByDetailRequester(detailRequester: DetailRequester): NovelDetail? {
         return queryByDetailRequester(detailRequester.type, detailRequester.extra)
     }
@@ -37,7 +41,23 @@ class CacheDatabaseManager(context: Context) {
         return db.novelStatusDao().queryStatusByDetailRequester(type, extra)
     }
 
-    fun queryOrNewStatus(detailRequester: DetailRequester): NovelStatus {
-        return queryOrNewStatus(detailRequester)
+    fun getNovelStatus(requesterData: RequesterData): NovelStatus? {
+        return queryStatusByDetailRequester(requesterData.type, requesterData.extra)
+    }
+
+    fun queryOrNewStatus(type: String, extra: String): NovelStatus {
+        return db.novelStatusDao().queryOrNew(type, extra)
+    }
+
+    fun queryOrNewStatus(requesterData: RequesterData): NovelStatus {
+        return queryOrNewStatus(requesterData.type, requesterData.extra)
+    }
+
+    fun updateNovelStatus(novelStatus: NovelStatus) {
+        db.novelStatusDao().update(novelStatus)
+    }
+
+    fun insertNovelStatus(novelStatus: NovelStatus) {
+        db.novelStatusDao().insert(novelStatus)
     }
 }

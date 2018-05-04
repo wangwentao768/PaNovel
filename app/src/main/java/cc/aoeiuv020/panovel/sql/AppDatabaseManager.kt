@@ -6,6 +6,7 @@ import cc.aoeiuv020.panovel.local.BookListData
 import cc.aoeiuv020.panovel.sql.db.AppDatabase
 import cc.aoeiuv020.panovel.sql.entity.BookList
 import cc.aoeiuv020.panovel.sql.entity.BookListItem
+import cc.aoeiuv020.panovel.sql.entity.RequesterData
 import cc.aoeiuv020.panovel.sql.entity.toSql
 
 /**
@@ -34,22 +35,28 @@ class AppDatabaseManager(context: Context) {
         bookList
     }
 
-    fun getAllBookLists(): List<BookList> = db.runInTransaction<List<BookList>> {
-        db.bookListDao().getAllBookLists()
+    fun getAllBookLists(): List<BookList> {
+        return db.bookListDao().getAllBookLists()
     }
 
-    fun renameBookList(bookList: BookList, name: String) = db.runInTransaction {
+    fun renameBookList(bookList: BookList, name: String) {
         val id = requireNotNull(bookList.id) {
             "require bookList.id was null,"
         }
         db.bookListDao().renameBookList(id, name)
     }
 
-    fun removeBookList(bookList: BookList) = db.runInTransaction {
+    fun removeBookList(bookList: BookList) {
         val id = requireNotNull(bookList.id) {
             "require bookList.id was null,"
         }
         db.bookListDao().removeBookList(id)
+    }
+
+    fun listBookshelf(): List<RequesterData> {
+        return db.bookshelfDao().list().map {
+            it.detailRequester
+        }
     }
 
 }

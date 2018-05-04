@@ -3,25 +3,16 @@ package cc.aoeiuv020.panovel.bookshelf
 import android.content.Context
 import android.view.ViewGroup
 import cc.aoeiuv020.panovel.R
-import cc.aoeiuv020.panovel.api.NovelChapter
 import cc.aoeiuv020.panovel.base.item.BaseItemListAdapter
 import cc.aoeiuv020.panovel.base.item.DefaultItemViewHolder
-import cc.aoeiuv020.panovel.detail.NovelDetailActivity
-import cc.aoeiuv020.panovel.local.Bookshelf
-import cc.aoeiuv020.panovel.local.NovelHistory
 import cc.aoeiuv020.panovel.local.Settings
-import cc.aoeiuv020.panovel.local.Text
-import cc.aoeiuv020.panovel.search.FuzzySearchActivity
-import cc.aoeiuv020.panovel.text.NovelTextActivity
+import cc.aoeiuv020.panovel.sql.entity.RequesterData
 import cc.aoeiuv020.panovel.util.hide
 import cc.aoeiuv020.panovel.util.setHeight
 import cc.aoeiuv020.panovel.util.show
 import cn.lemon.view.adapter.BaseViewHolder
 import kotlinx.android.synthetic.main.bookshelf_item_big.view.*
-import org.jetbrains.anko.debug
 import org.jetbrains.anko.dip
-import org.jetbrains.anko.selector
-import java.util.*
 
 /**
  *
@@ -30,7 +21,7 @@ import java.util.*
 
 class BookshelfItemListAdapter(context: Context, val presenter: BookshelfPresenter)
     : BaseItemListAdapter(context) {
-    override fun onCreateBaseViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<NovelHistory>
+    override fun onCreateBaseViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<RequesterData>
             = if (Settings.BookSmallLayout) {
         BookshelfItemViewHolder(presenter, context, parent, R.layout.bookshelf_item_small)
     } else {
@@ -50,6 +41,7 @@ class BookshelfItemViewHolder(itemListPresenter: BookshelfPresenter, ctx: Contex
             refresh()
         }
 
+/*
         lMoreAction.setOnLongClickListener {
             val list = listOf(R.string.read_continue to { readContinue() },
                     R.string.read_last_chapter to { readLastChapter() },
@@ -63,35 +55,20 @@ class BookshelfItemViewHolder(itemListPresenter: BookshelfPresenter, ctx: Contex
             }
             true
         }
+*/
 
         newChapterDot.setHeight(ctx.dip(Settings.bookshelfRedDotSize))
         newChapterDot.setColorFilter(Settings.bookshelfRedDotColor)
     }
 
-    override fun setData(data: NovelHistory) {
+    override fun setData(data: RequesterData) {
         super.setData(data)
         newChapterDot.hide()
         ivMoreAction.hide()
         progressBar.show()
     }
 
-    override fun showUpdateTime(updateTime: Date?) {
-        super.showUpdateTime(updateTime)
-        showNewChapterDot()
-    }
-
-    override fun showNewChapterDot() {
-        val s = Settings.bookshelfRedDotNotifyNotReadOrNewChapter
-        if (s) {
-            if (updateTime?.time ?: 0 > novelHistory.date.time) {
-                newChapterDot.show()
-            } else {
-                newChapterDot.hide()
-            }
-        }
-    }
-
-    override fun hideProgressBar() {
+    fun hideProgressBar() {
         progressBar.hide()
         if (!newChapterDot.isShown) {
             if (Settings.bookshelfShowMoreActionDot) {
@@ -100,21 +77,12 @@ class BookshelfItemViewHolder(itemListPresenter: BookshelfPresenter, ctx: Contex
         }
     }
 
-    override fun showChapter(chapters: List<NovelChapter>, progress: Int) {
-        super.showChapter(chapters, progress)
-        debug {
-            "update <${novelHistory.novel.name}, ${Settings.bookshelfRedDotNotifyNotReadOrNewChapter}, $updateTime, ${novelHistory.date}>"
-        }
-        val s = Settings.bookshelfRedDotNotifyNotReadOrNewChapter
-        if (!s) {
-            if (chapters.lastIndex > progress) {
-                newChapterDot.show()
-            } else {
-                newChapterDot.hide()
-            }
-        }
+    private fun refresh() {
+        setData(detailRequester)
+        presenter.forceRefresh(detailRequester)
     }
 
+/*
     private fun exportExistsChapterToTextFile() {
         Text.exportExistsChapterToTextFile(novelItem)
     }
@@ -125,8 +93,8 @@ class BookshelfItemViewHolder(itemListPresenter: BookshelfPresenter, ctx: Contex
     }
 
     private fun refresh() {
-        setData(novelHistory)
-        presenter.forceRefresh(novelHistory)
+        setData(detailRequester)
+        presenter.forceRefresh(detailRequester)
     }
 
     private fun detail() {
@@ -144,4 +112,5 @@ class BookshelfItemViewHolder(itemListPresenter: BookshelfPresenter, ctx: Contex
     private fun readContinue() {
         NovelTextActivity.start(ctx, novelItem)
     }
+*/
 }

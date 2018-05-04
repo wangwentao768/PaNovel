@@ -49,7 +49,7 @@
             android:name=".search.FuzzySearchActivity"
             android:label="@string/title_activity_fuzzy_search"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".booklist.BookListActivity" />
+        <!--<activity android:name=".booklist.BookListActivity" />-->
         <activity
             android:name=".donate.DonateActivity"
             android:label="@string/donate" />

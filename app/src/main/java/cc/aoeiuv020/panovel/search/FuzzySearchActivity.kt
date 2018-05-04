@@ -12,8 +12,8 @@ import cc.aoeiuv020.panovel.R
 import cc.aoeiuv020.panovel.api.NovelItem
 import cc.aoeiuv020.panovel.base.item.BaseItemListView
 import cc.aoeiuv020.panovel.base.item.DefaultItemListAdapter
-import cc.aoeiuv020.panovel.local.NovelHistory
 import cc.aoeiuv020.panovel.local.Settings
+import cc.aoeiuv020.panovel.sql.entity.RequesterData
 import cc.aoeiuv020.panovel.util.getStringExtra
 import cc.aoeiuv020.panovel.util.show
 import com.google.android.gms.ads.AdListener
@@ -148,8 +148,8 @@ class FuzzySearchActivity : AppCompatActivity(), BaseItemListView, AnkoLogger {
         recyclerView.dismissSwipeRefresh()
     }
 
-    fun addNovel(item: NovelItem) {
-        mAdapter.add(NovelHistory(item))
+    fun addNovel(item: RequesterData) {
+        mAdapter.add(item)
     }
 
     fun showOnComplete() {

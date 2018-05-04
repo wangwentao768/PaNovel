@@ -7,6 +7,9 @@ import android.arch.persistence.room.PrimaryKey
 import java.util.*
 
 /**
+ * 小说阅读状态，
+ * 进度啊之类的，
+ *
  * Created by AoEiuV020 on 2018.05.02-21:57:34.
  */
 @Entity(

@@ -8,9 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import cc.aoeiuv020.panovel.R
 import cc.aoeiuv020.panovel.base.item.BaseItemListView
-import cc.aoeiuv020.panovel.local.NovelHistory
 import cc.aoeiuv020.panovel.local.Settings
 import cc.aoeiuv020.panovel.main.MainActivity
+import cc.aoeiuv020.panovel.sql.entity.RequesterData
 import kotlinx.android.synthetic.main.novel_item_list.*
 
 /**
@@ -73,7 +73,7 @@ class BookshelfFragment : Fragment(), BaseItemListView {
         presenter.forceRefresh()
     }
 
-    fun showNovelList(list: List<NovelHistory>) {
+    fun showNovelList(list: List<RequesterData>) {
         mAdapter.data = list
         recyclerView.dismissSwipeRefresh()
         recyclerView.showNoMore()

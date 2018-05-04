@@ -2,6 +2,7 @@ package cc.aoeiuv020.panovel.history
 
 import cc.aoeiuv020.panovel.base.item.DefaultItemListPresenter
 import cc.aoeiuv020.panovel.local.History
+import cc.aoeiuv020.panovel.sql.DataManager
 import cc.aoeiuv020.panovel.util.async
 import cc.aoeiuv020.panovel.util.suffixThreadName
 import io.reactivex.Observable
@@ -17,6 +18,7 @@ class HistoryPresenter : DefaultItemListPresenter<HistoryFragment>() {
         Observable.fromCallable {
             suffixThreadName("requestHistory")
             History.list()
+            DataManager.listHistory()
         }.async().subscribe({ list ->
             view?.showNovelList(list)
         }, { e ->

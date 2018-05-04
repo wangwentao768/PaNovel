@@ -5,6 +5,8 @@ import cc.aoeiuv020.panovel.base.item.BigItemPresenter
 import cc.aoeiuv020.panovel.local.Bookshelf
 import cc.aoeiuv020.panovel.local.History
 import cc.aoeiuv020.panovel.local.NovelHistory
+import cc.aoeiuv020.panovel.sql.DataManager
+import cc.aoeiuv020.panovel.sql.entity.RequesterData
 import cc.aoeiuv020.panovel.util.async
 import cc.aoeiuv020.panovel.util.suffixThreadName
 import io.reactivex.Observable
@@ -26,6 +28,7 @@ class BookshelfPresenter : BaseItemListPresenter<BookshelfFragment, BookshelfIte
             suffixThreadName("requestBookshelf")
             val history = History.list().map { Pair(it.novel, it.date) }.toMap()
             Bookshelf.list().map { NovelHistory(it, history[it] ?: Date(0)) }.sortedByDescending { it.date }
+            DataManager.listBookshelf()
         }.async().subscribe({ list ->
             view?.showNovelList(list)
         }, { e ->
@@ -50,8 +53,8 @@ class BookshelfItemPresenter(presenter: BaseItemListPresenter<*, BookshelfItemPr
     override val refreshTime: Long
         get() = maxOf(super.refreshTime, itemRefreshTime)
 
-    fun forceRefresh(novelHistory: NovelHistory) {
+    fun forceRefresh(requesterData: RequesterData) {
         itemRefreshTime = System.currentTimeMillis()
-        view?.setData(novelHistory)
+        view?.setData(requesterData)
     }
 }
