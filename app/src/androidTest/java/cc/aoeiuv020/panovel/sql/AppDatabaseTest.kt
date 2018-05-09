@@ -1,6 +1,5 @@
 package cc.aoeiuv020.panovel.sql
 
-import android.arch.persistence.room.Room
 import android.content.Context
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -37,16 +36,24 @@ class AppDatabaseTest {
     @Before
     fun setUp() {
         context = InstrumentationRegistry.getTargetContext()
-        db = Room.inMemoryDatabaseBuilder(
-                context.applicationContext,
-                AppDatabase::class.java
-        ).build()
+        db = AppDatabase.getInstance(context)
     }
 
 
     private fun readBookListData(name: String): BookListData {
         val json = InstrumentationRegistry.getContext().assetsRead(name)
         return Gson().fromJson(json, BookListData::class.java)
+    }
+
+    @Test
+    fun a0() {
+
+    }
+
+
+    @Test
+    fun a00() {
+
     }
 
     @Test
@@ -60,6 +67,28 @@ class AppDatabaseTest {
         db.bookshelfDao().put(book)
         db.bookshelfDao().contains(book).also {
             assertTrue(it)
+        }
+        db.bookshelfDao().remove(book)
+        db.bookshelfDao().contains(book).also {
+            assertFalse(it)
+        }
+    }
+
+    @Test
+    fun a11_contains() {
+        val book = Bookshelf(
+                detailRequester = RequesterData("type", "extra")
+        )
+        db.bookshelfDao().contains(book).also {
+            assertFalse(it)
+        }
+        db.bookshelfDao().put(book)
+        db.bookshelfDao().contains(book).also {
+            assertTrue(it)
+        }
+        db.bookshelfDao().remove(book)
+        db.bookshelfDao().contains(book).also {
+            assertFalse(it)
         }
     }
 }

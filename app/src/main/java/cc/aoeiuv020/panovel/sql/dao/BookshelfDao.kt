@@ -33,4 +33,13 @@ abstract class BookshelfDao {
                     requesterData.type,
                     requesterData.extra
             )
+
+    fun remove(bookshelf: Bookshelf) =
+            remove(bookshelf.detailRequester)
+
+    fun remove(requesterData: RequesterData) =
+            remove(
+                    requesterData.type,
+                    requesterData.extra
+            )
 }
