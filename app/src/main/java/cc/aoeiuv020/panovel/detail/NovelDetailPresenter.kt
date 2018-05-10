@@ -2,10 +2,12 @@ package cc.aoeiuv020.panovel.detail
 
 import cc.aoeiuv020.panovel.Presenter
 import cc.aoeiuv020.panovel.api.ChaptersRequester
+import cc.aoeiuv020.panovel.api.DetailRequester
 import cc.aoeiuv020.panovel.api.NovelContext
 import cc.aoeiuv020.panovel.api.NovelItem
 import cc.aoeiuv020.panovel.local.Cache
 import cc.aoeiuv020.panovel.qrcode.QrCodeManager
+import cc.aoeiuv020.panovel.sql.DataManager
 import cc.aoeiuv020.panovel.util.async
 import cc.aoeiuv020.panovel.util.suffixThreadName
 import io.reactivex.Observable
@@ -25,11 +27,13 @@ class NovelDetailPresenter(private val novelItem: NovelItem) : Presenter<NovelDe
     private var refresh = false
 
     fun start() {
+        requestBookshelf()
         requestNovelDetail()
     }
 
     fun refresh() {
         refresh = true
+        requestBookshelf()
         requestNovelDetail()
     }
 
@@ -47,6 +51,19 @@ class NovelDetailPresenter(private val novelItem: NovelItem) : Presenter<NovelDe
             view?.showError(message, e)
         }).let { addDisposable(it, 1) }
 
+    }
+
+    private fun requestBookshelf() {
+        Observable.fromCallable {
+            suffixThreadName("addBookshelf")
+            DataManager.containsBookshelf(novelItem.requester)
+        }.async().subscribe({ contains ->
+            view?.showContainsBookshelf(contains)
+        }, { e ->
+            val message = "移出书架失败，"
+            error(message, e)
+            view?.showError(message, e)
+        })
     }
 
     private fun requestNovelDetail() {
@@ -95,5 +112,29 @@ class NovelDetailPresenter(private val novelItem: NovelItem) : Presenter<NovelDe
             error(message, e)
             view?.showError(message, e)
         }).let { addDisposable(it, 1) }
+    }
+
+    fun addBookshelf(requester: DetailRequester) {
+        Observable.fromCallable {
+            suffixThreadName("addBookshelf")
+            DataManager.addBookshelf(requester)
+        }.async().subscribe({
+        }, { e ->
+            val message = "加入书架失败，"
+            error(message, e)
+            view?.showError(message, e)
+        })
+    }
+
+    fun removeBookshelf(requester: DetailRequester) {
+        Observable.fromCallable {
+            suffixThreadName("addBookshelf")
+            DataManager.removeBookshelf(requester)
+        }.async().subscribe({
+        }, { e ->
+            val message = "移出书架失败，"
+            error(message, e)
+            view?.showError(message, e)
+        })
     }
 }

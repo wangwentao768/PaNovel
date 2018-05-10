@@ -2,6 +2,7 @@ package cc.aoeiuv020.panovel.sql
 
 import android.content.Context
 import android.support.annotation.VisibleForTesting
+import cc.aoeiuv020.panovel.api.DetailRequester
 import cc.aoeiuv020.panovel.sql.entity.*
 import io.reactivex.Observable
 import java.util.*
@@ -85,6 +86,14 @@ object DataManager {
         return app.listBookshelf()
     }
 
+    fun addBookshelf(requester: DetailRequester) {
+        app.addBookshelf(requester.toSql())
+    }
+
+    fun removeBookshelf(requester: DetailRequester) {
+        app.removeBookshelf(requester.toSql())
+    }
+
     fun listHistory(): List<RequesterData> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -95,5 +104,9 @@ object DataManager {
 
     fun fuzzySearch(name: String): Observable<RequesterData> {
         return api.fuzzySearch(name)
+    }
+
+    fun containsBookshelf(requester: DetailRequester): Boolean {
+        return app.containsBookshelf(requester.toSql())
     }
 }

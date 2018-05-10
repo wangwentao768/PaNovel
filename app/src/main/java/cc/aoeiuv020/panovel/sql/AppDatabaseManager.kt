@@ -59,4 +59,16 @@ class AppDatabaseManager(context: Context) {
         }
     }
 
+    fun addBookshelf(requesterData: RequesterData) {
+        db.bookshelfDao().put(requesterData)
+    }
+
+    fun removeBookshelf(requesterData: RequesterData) {
+        db.bookshelfDao().remove(requesterData)
+    }
+
+    fun containsBookshelf(requesterData: RequesterData): Boolean {
+        return db.bookshelfDao().contains(requesterData)
+    }
+
 }

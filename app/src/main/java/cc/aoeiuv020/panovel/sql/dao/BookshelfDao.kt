@@ -16,6 +16,10 @@ abstract class BookshelfDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun put(bookshelf: Bookshelf)
 
+    fun put(requesterData: RequesterData) = put(Bookshelf(
+            detailRequester = requesterData
+    ))
+
     @Query("delete from Bookshelf where detail_requester_type = :type and detail_requester_extra = :extra")
     abstract fun remove(type: String, extra: String)
 

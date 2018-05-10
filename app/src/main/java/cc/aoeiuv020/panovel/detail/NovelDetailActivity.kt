@@ -15,7 +15,6 @@ import cc.aoeiuv020.panovel.R
 import cc.aoeiuv020.panovel.api.NovelChapter
 import cc.aoeiuv020.panovel.api.NovelDetail
 import cc.aoeiuv020.panovel.api.NovelItem
-import cc.aoeiuv020.panovel.local.Bookshelf
 import cc.aoeiuv020.panovel.local.Settings
 import cc.aoeiuv020.panovel.local.toBean
 import cc.aoeiuv020.panovel.local.toJson
@@ -86,13 +85,12 @@ class NovelDetailActivity : AppCompatActivity(), IView, AnkoLogger {
         fabRead.setOnClickListener {
             NovelTextActivity.start(this, novelItem)
         }
-        fabStar.isChecked = Bookshelf.contains(novelItem)
         fabStar.setOnClickListener {
             fabStar.toggle()
             if (fabStar.isChecked) {
-                Bookshelf.add(novelItem)
+                presenter.addBookshelf(novelItem.requester)
             } else {
-                Bookshelf.remove(novelItem)
+                presenter.removeBookshelf(novelItem.requester)
             }
         }
 
@@ -157,6 +155,10 @@ class NovelDetailActivity : AppCompatActivity(), IView, AnkoLogger {
         recyclerView.recyclerView.post {
             swipeRefreshLayout.isRefreshing = false
         }
+    }
+
+    fun showContainsBookshelf(contains: Boolean) {
+        fabStar.isChecked = contains
     }
 
     fun showSharedUrl(url: String, qrCode: String) {
