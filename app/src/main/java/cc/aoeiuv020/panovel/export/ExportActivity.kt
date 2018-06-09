@@ -4,6 +4,7 @@ package cc.aoeiuv020.panovel.export
 
 import android.Manifest
 import android.app.ProgressDialog
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -19,7 +20,6 @@ import cc.aoeiuv020.panovel.util.loading
 import kotlinx.android.synthetic.main.activity_export.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.alert
-import org.jetbrains.anko.ctx
 import org.jetbrains.anko.startActivity
 
 class ExportActivity : AppCompatActivity(), AnkoLogger, IView {
@@ -38,7 +38,7 @@ class ExportActivity : AppCompatActivity(), AnkoLogger, IView {
 
         initWidget()
 
-        presenter = ExportPresenter(ctx)
+        presenter = ExportPresenter()
         presenter.attach(this)
         presenter.start()
     }
@@ -100,7 +100,11 @@ class ExportActivity : AppCompatActivity(), AnkoLogger, IView {
             Intent(Intent.ACTION_GET_CONTENT)
         }
         intent.type = "*/*"
-        startActivityForResult(intent, 1)
+        try {
+            startActivityForResult(intent, 1)
+        } catch (e: ActivityNotFoundException) {
+            showError(getString(R.string.no_file_explorer), e)
+        }
     }
 
     fun requestPermissions() {

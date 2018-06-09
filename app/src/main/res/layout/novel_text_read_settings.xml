@@ -78,124 +78,25 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llFont"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tvBrightness"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/reader_settings_text_size"
             android:layout_height="wrap_content"
-            android:maxEms="4"
-            android:minEms="4"
+            android:layout_weight="1"
             android:singleLine="true"
-            android:text="@string/font"
+            android:text="@string/brightness"
             android:textColor="@android:color/primary_text_dark" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lBackgroundImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxEms="4"
-            android:minEms="4"
-            android:singleLine="true"
-            android:text="@string/background_image"
-            android:textColor="@android:color/primary_text_dark" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lBackgroundColor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxEms="4"
-            android:minEms="4"
-            android:singleLine="true"
-            android:text="@string/background_color"
-            android:textColor="@android:color/primary_text_dark" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/backgroundColorTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:maxEms="6"
-            android:minEms="6"
-            android:singleLine="true"
-            android:textColor="@android:color/primary_text_dark"
-            tools:text="0xFFFFFFFF" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lTextColor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxEms="4"
-            android:minEms="4"
-            android:singleLine="true"
-            android:text="@string/text_color"
-            android:textColor="@android:color/primary_text_dark" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/textColorTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:maxEms="6"
-            android:minEms="6"
-            android:singleLine="true"
-            android:textColor="@android:color/primary_text_dark"
-            tools:text="0xFF000000" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tvTypesetting"
             android:layout_width="match_parent"
+            android:textSize="@dimen/reader_settings_text_size"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:singleLine="true"
@@ -203,8 +104,19 @@
             android:textColor="@android:color/primary_text_dark" />
 
         <TextView
+            android:id="@+id/tvFont"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/reader_settings_text_size"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:text="@string/font"
+            android:textColor="@android:color/primary_text_dark" />
+
+        <TextView
             android:id="@+id/tvAnimation"
             android:layout_width="match_parent"
+            android:textSize="@dimen/reader_settings_text_size"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:singleLine="true"
